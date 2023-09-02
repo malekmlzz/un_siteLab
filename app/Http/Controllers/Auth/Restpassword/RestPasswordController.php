@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth\Restpassword;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Kavenegar;
@@ -21,7 +20,6 @@ class RestPasswordController extends Controller
        $user = User::where('mobile', $request->phon_number)->first();
         if ($user) {
             $code = mt_rand(100000, 999999);
-            dd($code);
             try {
                 $sender = "1000630006300";        //This is the Sender number
                 $message = 'کد بازیابی رمز عبور شما در سامانه یکپارچه تشخیصی:' . $code;        //The body of SMS
