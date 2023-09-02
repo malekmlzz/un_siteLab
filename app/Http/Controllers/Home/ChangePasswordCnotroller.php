@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers\Home;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class ChangePasswordCnotroller extends Controller
+{
+    public function changePassword(Request $request)
+    {   
+        $user = Auth::user();
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json([
+                'massege' => 'رمز عبور قدیمی اشتباه است ',
+            ], 400);
+        } else { 
+         $user->update([
+            'password' => Hash::make($request->new_password),
+         ]);
+        }
+    }
+}

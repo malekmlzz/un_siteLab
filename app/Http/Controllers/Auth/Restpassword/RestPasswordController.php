@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers\Auth\Restpassword;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Kavenegar;
+use Kavenegar\Exceptions\ApiException;
+use Kavenegar\Exceptions\HttpException;
+
+
+class RestPasswordController extends Controller
+{
+    public function sendPasswordRestCode(Request $request)
+    {
+ 
+       $user = User::where('mobile', $request->phon_number)->first();
+        if ($user) {
+            $code = mt_rand(100000, 999999);
+            dd($code);
+            try {
+                $sender = "1000630006300";        //This is the Sender number
+                $message = 'کد بازیابی رمز عبور شما در سامانه یکپارچه تشخیصی:' . $code;        //The body of SMS
+
+                $receptor = $request->mobile;
+
+                //Receptors numbers
+                $result = Kavenegar::Send($sender, $receptor, $message);
+            } catch (ApiException $e) {
+                // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+                echo $e->errorMessage();
+            } catch (HttpException $e) {
+                // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+                echo $e->errorMessage();
+            }
+            Cache::put('password_rest_code:' . $user->id, $code, now()->addMinute(2));
+        } else {
+            return response()->json([
+                'massege' => 'حساب کاربری با این شماره تلفن موجود نیست'
+            ]);
+        }
+    }
+
+    public function verifyPasswordRestCode(Request $request , $id)
+    {   
+        $user = User::find($id);
+        $code = $request->code;
+
+        $cachedCode = Cache::get('password_rest_code:' . $user->id);
+        if ($cachedCode === $code) {
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+            if ($user->password) {
+                return response()->json([
+                    'message' => 'رمز با موفقیت بازیابی شد'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'message' => 'کد وارد شده معتبر نمی باشد'
+            ]);
+        }
+    }
+}
