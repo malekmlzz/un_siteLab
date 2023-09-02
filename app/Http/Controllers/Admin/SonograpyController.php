@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Sonograpy\StoreRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,20 +19,20 @@ class SonograpyController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
 
-        // $validatData = $request->validated();
+        $validatData = $request->validated();
 
         try {
             // $validatData = $request->validated();
             $AddSonograpy = User::create([
 
-                'name' => $request->username,
-                'Lab_code' => $request->lab_code,
-                'role' => $request->role,
-                'mobile' => $request->phon_number,
-                'password' => Hash::make($request->password),
+                'full_name' => $validatData['full_name'],
+                'lab_code' => $validatData['lab_code'],
+                'role' => $validatData['role'],
+                'mobile' => $validatData['phon_number'],
+                'password' => Hash::make($validatData['password'],),
 
             ]);
 

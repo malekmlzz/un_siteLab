@@ -19,8 +19,7 @@ class LabDocterSonoRegistration
     {
         if ($request->role == 'docter') {
             $validator = Validator::make($request->all(), [
-                'username' => 'required|max:255|string',
-                'last_name' => 'required|max:255|string',
+                'full_name' => 'required|max:255|string',
                 'national_code' => 'required|numeric|unique:users',
                 'doc_code' => 'required',
                 'phon_number' => 'required|numeric',
@@ -37,7 +36,7 @@ class LabDocterSonoRegistration
             return $next($request);
         } elseif ($request->role == 'laboratory') {
             $validator = Validator::make($request->all(), [
-                'username' => 'required',
+                'full_name' => 'required',
                 'phon_number' => 'required|numeric',
                 'lab_code' => 'required|unique:users',
                 'password' => 'required|min:8|max:255|confirmed',
@@ -53,7 +52,7 @@ class LabDocterSonoRegistration
             return $next($request);
         } elseif ($request->role == 'sonography') {
             $validator = Validator::make($request->all(), [
-                'username' => 'required',
+                'full_name' => 'required',
                 'phon_number' => 'required|numeric',
                 'lab_code' => 'required|unique:users',
                 'password' => 'required|min:8|max:255|confirmed',

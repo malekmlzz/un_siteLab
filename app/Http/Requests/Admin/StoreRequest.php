@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Docter;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,12 +24,10 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_name' => 'required|string|max:255',
-            'national_code' => 'required|numeric',
-            'doc_code' => 'required',
+            'full_name' => 'required|max:255|string',
             'role' => 'required',
-            'phon_number' => 'required|numeric',
-            'password' => 'required|min:8|confirmed',
+            'email' => 'required|email|unique:users',
+            'password' =>'required|min:8|confirmed'
         ];
     }
 }

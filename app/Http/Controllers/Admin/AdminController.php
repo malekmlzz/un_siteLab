@@ -2,53 +2,43 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Laboratory\StoreRequest;
+use App\Http\Requests\Admin\StoreRequest;
+use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 
-
-class LaboratoryController extends Controller
+class AdminController extends Controller
 {
     public function index()
     {
-        $laboratory = User::where('role' , 'laboratory')->paginate(8);
+        $admins = User::where('role' , 'admin')->paginate(8);
         return response()->json([
-            'data' => $laboratory ,
+            'data' => $admins ,
         ]);
     }
-
     public function store(StoreRequest $request)
     {
-        $validatData = $request->validated();
-
         try {
-
-            $Addlaboratory = User::create([
-
+            $validatData = $request->validated();
+            $addAdmin = User::create([
                 'full_name' => $validatData['full_name'],
-                'lab_code' => $validatData['lab_code'],
                 'role' => $validatData['role'],
-                'mobile' => $validatData['phon_number'],
-                'password' => Hash::make($validatData['password'],),
-
+                'email' => $validatData['email'],
+                'password' => Hash::make( $validatData['password'])
             ]);
-
-            return response()->json($Addlaboratory, 200);
+            return response()->json($addAdmin, 200);
         } catch (Exception $error) {
             return response()->json($error, 400);
         }
     }
 
-    public function delete($laboratory_id)
+    public function destroy($admin_id)
     {
         try {
-            $laboratory = User::find($laboratory_id);
-            $deletelaboratory = $laboratory->delete();
-
-            if ($deletelaboratory) {
+            $admin = User::find($admin_id);
+            $deleteAdmin = $admin->delete();
+            if ($deleteAdmin) {
                 return response()->json('The Post removed successfuly.', 200);
             } else {
                 return response()->json('Removing the post is failed', 400);

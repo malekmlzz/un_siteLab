@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AprovalRegisterUsers;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DocterController;
 use App\Http\Controllers\Admin\LaboratoryController;
 use App\Http\Controllers\Admin\PatientsController;
@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\VerifyUserController;
 use App\Http\Controllers\Auth\Login\AdminLoginController;
 use App\Http\Controllers\Auth\Login\LabDocterSonoLoginController;
 use App\Http\Controllers\Auth\LogOut\LogOutController;
-use App\Http\Controllers\Auth\Register\AdminController;
 use App\Http\Controllers\Auth\Register\LabDocterSonoController;
 use App\Http\Controllers\Auth\Restpassword\RestPasswordController;
 use App\Http\Controllers\Controller;
@@ -32,7 +31,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('register')->group(function () {
-        Route::post('admin', [AdminController::class, 'register'])->middleware('admin.registration');
         Route::post('users', [LabDocterSonoController::class, 'register'])->middleware('labDocterSono.registration');
     });
     Route::prefix('restPassword')->group(function () {
@@ -43,7 +41,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('login')->group(function () {
         Route::post('admin', [AdminLoginController::class, 'login']);
         Route::middleware(['admin.approval'])->group(function () {
-            Route::post('laboratory', [LabDocterSonoLoginController::class, 'login']);
+            Route::post('users', [LabDocterSonoLoginController::class, 'login']);
         });
     });
 
@@ -51,6 +49,9 @@ Route::prefix('v1')->group(function () {
     Route::get('admin/changeRole/{user_id}', [VerifyUserController::class, 'changeRoleUser']);
     Route::middleware(['jwt.auth'])->group(function () {
         Route::prefix('admin')->group(function () {
+            Route::get('', [AdminController::class, 'index']);
+            Route::post('store', [AdminController::class, 'store']);
+            Route::delete('delete/{docter_id}', [AdminController::class, 'destroy']);
             Route::get('patient', [PatientsController::class, 'index']);
             Route::prefix('docter')->group(function () {
                 Route::get('', [DocterController::class, 'index']);
@@ -62,12 +63,11 @@ Route::prefix('v1')->group(function () {
                 Route::post('store', [LaboratoryController::class, 'store']);
                 Route::delete('delete/{laboratory_id} ', [LaboratoryController::class, 'delete']);
             });
-            Route::prefix('sonograpy')->group(function () {
+            Route::prefix('sonography')->group(function () {
                 Route::get('', [SonograpyController::class, 'index']);
                 Route::post('store', [SonograpyController::class, 'store']);
                 Route::delete('delete/{sonograpy_id} ', [SonograpyController::class, 'delete']);
             });
-            
         });
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
         Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);

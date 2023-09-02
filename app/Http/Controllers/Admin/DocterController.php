@@ -13,23 +13,23 @@ class DocterController extends Controller
 {
     public function index()
     {
-        $docters = User::where('role' , 'docter')->paginate(8);
+        $docters = User::where('role', 'docter')->paginate(8);
         return response()->json([
-            'data' => $docters ,
+            'data' => $docters,
         ]);
     }
     public function store(StoreRequest $request)
     {
+        
         try {
             $validatData = $request->validated();
             $AddDocter = User::create([
-                'name' => $validatData['username'],
-                'last_name' => $validatData['last_name'],
+                'full_name' => $validatData['full_name'],
                 'national_code' => $validatData['national_code'],
                 'doc_code' => $validatData['doc_code'],
                 'role' => $validatData['role'],
                 'mobile' => $validatData['phon_number'],
-                'password' => Hash::make( $validatData['password'])
+                'password' => Hash::make($validatData['password'])
             ]);
             return response()->json($AddDocter, 200);
         } catch (Exception $error) {

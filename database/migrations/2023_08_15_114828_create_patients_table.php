@@ -18,8 +18,7 @@ class CreatePatientsTable extends Migration
             $table->char('national_code' , 10);
             $table->char('mobile' , 11);
             $table->string('experiment_file');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->char('lab_name');
             $table->timestamps();
         });
     }

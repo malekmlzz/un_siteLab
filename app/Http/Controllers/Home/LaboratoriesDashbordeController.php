@@ -10,28 +10,29 @@ use App\Http\Controllers\Controller;
 use Kavenegar\Exceptions\ApiException;
 use Kavenegar\Exceptions\HttpException;
 use App\Http\Requests\ExperimentsRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class LaboratoriesDashbordeController extends Controller
 {
     public function store(ExperimentsRequest $request)
     { 
-         
+        
         $validatData = $request->validated();
         $patient = new Patient();
+        $user = Auth::user();
         try {
 
             $basepath = 'experiments/' . $validatData['national_code'] . '/';
-
             $sorcefilepath = $basepath . 'experiment' . $request->experiment_file->getClientOriginalName();
 
-
             ImageUploader::Upload($request->experiment_file, $sorcefilepath, 'local_storage');
-
+ 
 
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
             $patient->experiment_file = $sorcefilepath;
-            $patient->user_id = $validatData['user_id'];
+            $patient->lab_name =$user->name;
             $patients = $patient->save();
 
             if ($patients) {
@@ -59,19 +60,19 @@ class LaboratoriesDashbordeController extends Controller
     public function sendExperimetForPatient($patient_id)
     {
         $patient = Patient::find($patient_id);
-        // try {
-        //     $link = $this->downloadSorce($patient_id);
-        //     $sender = "1000630006300";        //This is the Sender number
-        //     $message = 'لینک دانلود نتیجه ازمایش :' . $link;        //The body of SMS
+        try {
+            $link = $this->downloadSorce($patient_id);
+            $sender = "1000630006300";        //This is the Sender number
+            $message = 'لینک دانلود نتیجه ازمایش :' . $link;        //The body of SMS
 
-        //     //Receptors numbers
-        //     $result = Kavenegar::Send($sender, $patient->mobile, $message);
-        // } catch (ApiException $e) {
-        //     // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
-        //     echo $e->errorMessage();
-        // } catch (HttpException $e) {
-        //     // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-        //     echo $e->errorMessage();
-        // }
+            //Receptors numbers
+            $result = Kavenegar::Send($sender, $patient->mobile, $message);
+        } catch (ApiException $e) {
+            // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+            echo $e->errorMessage();
+        } catch (HttpException $e) {
+            // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+            echo $e->errorMessage();
+        }
     }
 }

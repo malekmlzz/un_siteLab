@@ -18,9 +18,12 @@ class ChangePasswordCnotroller extends Controller
                 'massege' => 'رمز عبور قدیمی اشتباه است ',
             ], 400);
         } else { 
-         $user->update([
+       $updatepassword = $user->update([
             'password' => Hash::make($request->new_password),
          ]);
+         return response()->json([
+            'massege' => 'رمز با موفقیت تغییر یافت ',
+        ], 400);
         }
     }
 }

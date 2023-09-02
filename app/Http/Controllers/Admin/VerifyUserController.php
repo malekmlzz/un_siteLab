@@ -44,17 +44,4 @@ class VerifyUserController extends Controller
             ]);
         }
     }
-    public function changeRoleUser($user_id)
-    {
-        $user = User::find($user_id);
-        if ($user->role == 'admin') {
-            $UpdateUser = $user->update([
-                'role' => null,
-            ]);
-        } elseif($user->role == '') {
-            $UpdateUser = $user->update([
-                'role' => 'admin',
-            ]);
-        }
-    }
 }

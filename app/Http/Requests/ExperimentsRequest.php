@@ -27,7 +27,6 @@ class ExperimentsRequest extends FormRequest
            'national_code' => 'required|numeric',
            'phon_number' => 'required|numeric',
            'experiment_file' => 'required',
-           'user_id' => 'required',
         ];
     }
 }
