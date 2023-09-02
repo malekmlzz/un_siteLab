@@ -6,8 +6,8 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Laboratory\StoreRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Laboratory\StoreRequest;
 
 
 class LaboratoryController extends Controller
@@ -22,10 +22,10 @@ class LaboratoryController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $validatData = $request->validated();
+       
 
         try {
-
+            $validatData = $request->validated();
             $Addlaboratory = User::create([
 
                 'full_name' => $validatData['full_name'],
@@ -42,7 +42,7 @@ class LaboratoryController extends Controller
         }
     }
 
-    public function delete($laboratory_id)
+    public function destroy($laboratory_id)
     {
         try {
             $laboratory = User::find($laboratory_id);

@@ -25,18 +25,17 @@ class LaboratoriesDashbordeController extends Controller
 
             $basepath = 'experiments/' . $validatData['national_code'] . '/';
             $sorcefilepath = $basepath . 'experiment' . $request->experiment_file->getClientOriginalName();
-
             ImageUploader::Upload($request->experiment_file, $sorcefilepath, 'local_storage');
  
-
+    
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
             $patient->experiment_file = $sorcefilepath;
-            $patient->lab_name =$user->name;
+            $patient->lab_name =$user->full_name;
             $patients = $patient->save();
-
+             
             if ($patients) {
-                // $this->sendExperimetForPatient($patient->id);
+                $this->sendExperimetForPatient($patient->id);
 
                 return response()->json([
                     'data' => $patient,

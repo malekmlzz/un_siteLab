@@ -25,10 +25,10 @@ class StoreRequest extends FormRequest
     {
         return [
             'full_name' => 'required|string|max:255',
-            'lob_code' => 'required',
+            'lab_code' => 'required|unique:users',
             'phon_number' => 'required',
             'role' => 'required',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8'
         ];
     }
 

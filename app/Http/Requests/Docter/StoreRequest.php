@@ -29,7 +29,7 @@ class StoreRequest extends FormRequest
             'doc_code' => 'required',
             'role' => 'required',
             'phon_number' => 'required|numeric',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8',
         ];
     }
 }

@@ -22,6 +22,7 @@ class SonograpyController extends Controller
     public function store(StoreRequest $request)
     {
 
+        
         $validatData = $request->validated();
 
         try {
@@ -42,8 +43,9 @@ class SonograpyController extends Controller
         }
     }
 
-    public function delete($Sonograpy_id)
+    public function destroy($Sonograpy_id)
     {
+       
         try {
             $Sonograpy = User::find($Sonograpy_id);
             $deleteSonograpy = $Sonograpy->delete();

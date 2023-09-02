@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\DocterController;
 use App\Http\Controllers\Admin\LaboratoryController;
 use App\Http\Controllers\Admin\PatientsController;
@@ -35,7 +36,7 @@ Route::prefix('v1')->group(function () {
     });
     Route::prefix('restPassword')->group(function () {
         Route::post('sendCode', [RestPasswordController::class, 'sendPasswordRestCode']);
-        Route::post('vrifyCode', [RestPasswordController::class, 'verifyPasswordRestCode']);
+        Route::post('vrifyCode/{user_id}', [RestPasswordController::class, 'verifyPasswordRestCode']);
     });
     Route::get('logout', [LogOutController::class, 'logout'])->middleware('jwt.auth');
     Route::prefix('login')->group(function () {
@@ -46,13 +47,16 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('admin/verifyUser/{user_id}', [VerifyUserController::class, 'verifyUser']);
-    Route::get('admin/changeRole/{user_id}', [VerifyUserController::class, 'changeRoleUser']);
     Route::middleware(['jwt.auth'])->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('', [AdminController::class, 'index']);
             Route::post('store', [AdminController::class, 'store']);
             Route::delete('delete/{docter_id}', [AdminController::class, 'destroy']);
+
+            Route::get('dashborad', [AdminDashboardController::class, 'adminDashborad']);
+
             Route::get('patient', [PatientsController::class, 'index']);
+            
             Route::prefix('docter')->group(function () {
                 Route::get('', [DocterController::class, 'index']);
                 Route::post('store', [DocterController::class, 'store']);
@@ -61,12 +65,12 @@ Route::prefix('v1')->group(function () {
             Route::prefix('laboratory')->group(function () {
                 Route::get('', [LaboratoryController::class, 'index']);
                 Route::post('store', [LaboratoryController::class, 'store']);
-                Route::delete('delete/{laboratory_id} ', [LaboratoryController::class, 'delete']);
+                Route::delete('delete/{laboratory_id} ', [LaboratoryController::class, 'destroy']);
             });
             Route::prefix('sonography')->group(function () {
                 Route::get('', [SonograpyController::class, 'index']);
                 Route::post('store', [SonograpyController::class, 'store']);
-                Route::delete('delete/{sonograpy_id} ', [SonograpyController::class, 'delete']);
+                Route::delete('delete/{sonography_id} ', [SonograpyController::class, 'destroy']);
             });
         });
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);

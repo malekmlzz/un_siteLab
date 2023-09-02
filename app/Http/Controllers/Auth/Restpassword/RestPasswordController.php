@@ -30,8 +30,9 @@ class RestPasswordController extends Controller
             try {
                 $sender = "1000630006300";        //This is the Sender number
                 $message = 'کد بازیابی رمز عبور شما در سامانه یکپارچه تشخیصی:' . $code;        //The body of SMS
-
-                $receptor = $request->mobile;
+     
+                $receptor = $user->mobile;
+                
 
                 //Receptors numbers
                 $result = Kavenegar::Send($sender, $receptor, $message);
@@ -39,6 +40,7 @@ class RestPasswordController extends Controller
                 // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
                 echo $e->errorMessage();
             } catch (HttpException $e) {
+                dd('pp');
                 // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
                 echo $e->errorMessage();
             }
