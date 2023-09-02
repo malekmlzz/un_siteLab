@@ -46,8 +46,8 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::get('admin/verifyUser/{user_id}', [VerifyUserController::class, 'verifyUser']);
     Route::middleware(['jwt.auth'])->group(function () {
+        Route::get('admin/verifyUser/{user_id}', [VerifyUserController::class, 'verifyUser']);
         Route::prefix('admin')->group(function () {
             Route::get('', [AdminController::class, 'index']);
             Route::post('store', [AdminController::class, 'store']);
@@ -56,7 +56,7 @@ Route::prefix('v1')->group(function () {
             Route::get('dashborad', [AdminDashboardController::class, 'adminDashborad']);
 
             Route::get('patient', [PatientsController::class, 'index']);
-            
+
             Route::prefix('docter')->group(function () {
                 Route::get('', [DocterController::class, 'index']);
                 Route::post('store', [DocterController::class, 'store']);
