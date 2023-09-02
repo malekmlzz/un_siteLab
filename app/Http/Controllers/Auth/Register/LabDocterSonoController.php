@@ -28,7 +28,6 @@ class LabDocterSonoController extends Controller
 
             //register laboratory
         } elseif ($request->role == 'laboratory') {
-            
             $user = new User([
                 'full_name' => $request->full_name,
                 'lab_code' => $request->lab_code,

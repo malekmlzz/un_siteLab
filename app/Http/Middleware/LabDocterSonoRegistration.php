@@ -36,7 +36,7 @@ class LabDocterSonoRegistration
             return $next($request);
         } elseif ($request->role == 'laboratory') {
             $validator = Validator::make($request->all(), [
-                'full_name' => 'required',
+                'full_name' => 'required|string|max:255',
                 'phon_number' => 'required|numeric',
                 'lab_code' => 'required|unique:users',
                 'password' => 'required|min:8|max:255|confirmed',
