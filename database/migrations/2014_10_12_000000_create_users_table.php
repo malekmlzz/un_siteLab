@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->char('full_name')->nullable();
             $table->char('national_code' , 10)->nullable();
             $table->char('doc_code')->nullable();
-            $table->char('mobile' , 11)->nullable();
+            $table->char('mobile')->nullable();
             $table->enum('role' ,['laboratory' , 'sonography' , 'docter' , 'admin'])->nullable();
             $table->char('lab_code')->nullable();
             $table->string('email')->nullable();

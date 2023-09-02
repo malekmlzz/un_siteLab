@@ -45,8 +45,8 @@ class LabDocterSonoController extends Controller
         } elseif ($request->role == 'sonography') {
             $user = new User([
                 'full_name' => $request->full_name,
-                'mobile' => $request->phon_number,
                 'lab_code' => $request->lab_code,
+                'mobile' => $request->phon_number,
                 'password' => bcrypt($request->password),
                 'role' => 'sonography',
             ]);
