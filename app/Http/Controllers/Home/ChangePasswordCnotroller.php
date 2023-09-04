@@ -13,6 +13,11 @@ class ChangePasswordCnotroller extends Controller
     public function changePassword(Request $request)
     {   
         $user = Auth::user();
+        $request->validate([
+            'old_password' => 'required',
+           'new_password' => 'required|min:8|confirmed',
+        ]);
+        dd($request->new_password);
         if (!Hash::check($request->old_password, $user->password)) {
             return response()->json([
                 'massege' => 'رمز عبور قدیمی اشتباه است ',

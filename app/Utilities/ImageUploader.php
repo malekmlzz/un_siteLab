@@ -11,5 +11,6 @@ class ImageUploader{
     public static function Upload($image , $path , $disctype)
     {
         Storage::disk($disctype)->put($path , File::get($image));
+ 
     }
 }

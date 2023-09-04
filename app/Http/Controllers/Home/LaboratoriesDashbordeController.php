@@ -16,23 +16,26 @@ use Illuminate\Support\Facades\Auth;
 class LaboratoriesDashbordeController extends Controller
 {
     public function store(ExperimentsRequest $request)
-    { 
-        
+    {
+
         $validatData = $request->validated();
         $patient = new Patient();
         $user = Auth::user();
+        $files = array($request->experiment_file);
+
         try {
-        
-            $basepath = 'experiments/' . $validatData['national_code'] . '/';
-            $sorcefilepath = $basepath . 'experiment' . $request->experiment_file->getClientOriginalName();
-            ImageUploader::Upload($request->experiment_file, $sorcefilepath, 'local_storage');
+            foreach ($files as $key => $value) {
+                $basepath = 'experiments/' . $validatData['national_code'] . '/';
+                $sorcefilepath = $basepath . 'experiment' . $request->experiment_file->getClientOriginalName();
+                ImageUploader::Upload($request->experiment_file, $sorcefilepath, 'local_storage');
     
+            }
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
-            $patient->experiment_file = $sorcefilepath;
-            $patient->lab_name =$user->full_name;
+            $patient->experiment_file = $basepath;
+            $patient->lab_name = $user->full_name;
             $patients = $patient->save();
-             
+
             if ($patients) {
                 $this->sendExperimetForPatient($patient->id);
 
@@ -49,7 +52,7 @@ class LaboratoriesDashbordeController extends Controller
 
     public function downloadSorce($id)
     {
-        
+
         $patient = Patient::findOrFail($id);
 
         return response()->download(storage_path('app/local_storage/' . $patient->experiment_file));
