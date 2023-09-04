@@ -28,6 +28,7 @@ class LaboratoriesDashbordeController extends Controller
             ImageUploader::Upload($request->experiment_file, $sorcefilepath, 'local_storage');
  
     
+            $patient->experiment_name = $validatData['experiment_name'];
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
             $patient->experiment_file = $sorcefilepath;

@@ -24,6 +24,7 @@ class ExperimentsRequest extends FormRequest
     public function rules()
     {
         return [
+           'experiment_name' => 'required|string',
            'national_code' => 'required|numeric',
            'phon_number' => 'required|numeric',
            'experiment_file' => 'required',
