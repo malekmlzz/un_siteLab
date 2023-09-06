@@ -46,11 +46,12 @@ Route::prefix('v1')->group(function () {
         });
     });
 
+    Route::post('admin/store', [AdminController::class, 'store']);
+
     Route::middleware(['jwt.auth'])->group(function () {
         Route::get('admin/verifyUser/{user_id}', [VerifyUserController::class, 'verifyUser']);
         Route::prefix('admin')->group(function () {
             Route::get('', [AdminController::class, 'index']);
-            Route::post('store', [AdminController::class, 'store']);
             Route::delete('delete/{docter_id}', [AdminController::class, 'destroy']);
 
             Route::get('dashborad', [AdminDashboardController::class, 'adminDashborad']);
