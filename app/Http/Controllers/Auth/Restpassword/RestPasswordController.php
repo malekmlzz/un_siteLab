@@ -26,27 +26,27 @@ class RestPasswordController extends Controller
             ]);
         }
         if ($user) {
-            $code = mt_rand(100000, 999999);
             try {
-                $sender = "1000630006300";        //This is the Sender number
-                $message = 'کد بازیابی رمز عبور شما در سامانه یکپارچه تشخیصی:' . $code;        //The body of SMS
-
                 $receptor = $request->mobile;
-
-                //Receptors numbers
-                $result = Kavenegar::Send($sender, $receptor, $message);
-            } catch (ApiException $e) {
+                $token = mt_rand(100000, 999999);
+                $template = "verify";
+                //Send null for tokens not defined in the template
+                //Pass token10 and token20 as parameter 6th and 7th
+                $result = Kavenegar::VerifyLookup($receptor, $token, $template, $type = null);
+                if ($result) {
+                    Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
+                    return response()->json([
+                        'data' => $user,
+                        'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
+                    ]);
+                }
+            } catch (\Kavenegar\Exceptions\ApiException $e) {
                 // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
                 echo $e->errorMessage();
-            } catch (HttpException $e) {
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
                 // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
                 echo $e->errorMessage();
             }
-            Cache::put('password_rest_code:' . $user->id, $code, now()->addMinute(2));
-            return response()->json([
-                'data' => $user,
-                'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
-            ]);
         } else {
             return response()->json([
                 'massege' => 'حساب کاربری موجود نیست'
