@@ -25,9 +25,10 @@ class RestPasswordController extends Controller
                 'massege' => 'لطفا کد ملی یا کد ازمایشگاه وارد کنیید'
             ]);
         }
+
         if ($user) {
             try {
-                $receptor = $request->phone_number;
+                $receptor = $user->mobile;
                 $token = mt_rand(100000, 999999);
                 $template = "verify";
                 //$sender = "1000630006300";
