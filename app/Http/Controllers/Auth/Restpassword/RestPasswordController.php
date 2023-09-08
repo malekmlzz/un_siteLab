@@ -30,9 +30,10 @@ class RestPasswordController extends Controller
                 $receptor = $request->phone_number;
                 $token = mt_rand(100000, 999999);
                 $template = "verify";
+                //$sender = "1000630006300";
                 //Send null for tokens not defined in the template
                 //Pass token10 and token20 as parameter 6th and 7th
-                $result = Kavenegar::VerifyLookup($receptor, $token, $template, $type = null);
+                $result = Kavenegar::VerifyLookup($receptor, $token , $template , $type = null);
                 if ($result) {
                     Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
                     return response()->json([
