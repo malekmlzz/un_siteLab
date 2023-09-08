@@ -26,9 +26,9 @@ class DocterController extends Controller
             $AddDocter = User::create([
                 'full_name' => $validatData['full_name'],
                 'national_code' => $validatData['national_code'],
-                'doc_code' => $validatData['doc_code'],
+                'docter_code' => $validatData['docter_code'],
                 'role' => $validatData['role'],
-                'mobile' => $validatData['phon_number'],
+                'mobile' => $validatData['phone_number'],
                 'password' => Hash::make($validatData['password'])
             ]);
             return response()->json($AddDocter, 200);

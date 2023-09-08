@@ -26,8 +26,8 @@ class LabDocterSonoLoginController extends Controller
             }
 
             // login laboratory and Sonograpy
-        } elseif ($request->lab_code) {
-            $credentilas = $request->only('lab_code', 'password');
+        } elseif ($request->center_number) {
+            $credentilas = $request->only('center_number', 'password');
 
 
             if (Auth::attempt($credentilas)) {

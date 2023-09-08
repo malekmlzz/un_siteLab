@@ -12,31 +12,34 @@ use Kavenegar\Exceptions\HttpException;
 use App\Http\Requests\ExperimentsRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LaboratoriesDashbordeController extends Controller
 {
     public function store(ExperimentsRequest $request)
-    { 
-        
+    {
+
         $validatData = $request->validated();
         $patient = new Patient();
         $user = Auth::user();
+        $files [] = $request->file('experiment_file');
+        
         try {
+            foreach($files as  $file) { 
+                $basepath = 'experiments/' . $validatData['national_code'] . '/';
+                $sorcefilepath = $basepath . 'experiment' . $file->getClientOriginalName();
+                ImageUploader::Upload( $file , $sorcefilepath , 'local_storage');
+            }
 
-            $basepath = 'experiments/' . $validatData['national_code'] . '/';
-            $sorcefilepath = $basepath . 'experiment' . $request->experiment_file->getClientOriginalName();
-            ImageUploader::Upload($request->experiment_file, $sorcefilepath, 'local_storage');
- 
-    
             $patient->experiment_name = $validatData['experiment_name'];
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
-            $patient->experiment_file = $sorcefilepath;
-            $patient->lab_name =$user->full_name;
+            $patient->experiment_file = $sorcefilepath ;
+            $patient->lab_name = $user->full_name;
             $patients = $patient->save();
-             
+
             if ($patients) {
-                $this->sendExperimetForPatient($patient->id);
+                // $this->sendExperimetForPatient($patient->id);
 
                 return response()->json([
                     'data' => $patient,
@@ -51,28 +54,30 @@ class LaboratoriesDashbordeController extends Controller
 
     public function downloadSorce($id)
     {
-        
-        $patient = Patient::findOrFail($id);
 
+        $patient = Patient::findOrFail($id);
         return response()->download(storage_path('app/local_storage/' . $patient->experiment_file));
     }
+
 
     public function sendExperimetForPatient($patient_id)
     {
         $patient = Patient::find($patient_id);
-        try {
-            $link = $this->downloadSorce($patient_id);
-            $sender = "1000630006300";        //This is the Sender number
-            $message = 'لینک دانلود نتیجه ازمایش :' . $link;        //The body of SMS
+       // try {
 
-            //Receptors numbers
-            $result = Kavenegar::Send($sender, $patient->mobile, $message);
-        } catch (ApiException $e) {
-            // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
-            echo $e->errorMessage();
-        } catch (HttpException $e) {
-            // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-            echo $e->errorMessage();
-        }
+        //     $link = 
+        //     $sender = "1000630006300";        //This is the Sender number
+        //     $message = 'لینک دانلود نتیجه ازمایش :' . $link;        //The body of SMS
+
+        //     //Receptors numbers
+        //     $result = Kavenegar::Send($sender, $patient->mobile, $message);
+        //     //$result = Kavenegar::Send($sender, $patient->mobile, $message);
+        // } catch (ApiException $e) {
+        //     // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+        //     echo $e->errorMessage();
+        // } catch (HttpException $e) {
+        //     // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+        //     echo $e->errorMessage();
+        // }
     }
 }

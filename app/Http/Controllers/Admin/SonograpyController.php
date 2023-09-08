@@ -30,9 +30,9 @@ class SonograpyController extends Controller
             $AddSonograpy = User::create([
 
                 'full_name' => $validatData['full_name'],
-                'lab_code' => $validatData['lab_code'],
+                'center_number' => $validatData['center_number'],
                 'role' => $validatData['role'],
-                'mobile' => $validatData['phon_number'],
+                'mobile' => $validatData['phone_number'],
                 'password' => Hash::make($validatData['password'],),
 
             ]);

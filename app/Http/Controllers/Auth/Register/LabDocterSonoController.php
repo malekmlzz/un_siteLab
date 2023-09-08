@@ -15,8 +15,8 @@ class LabDocterSonoController extends Controller
             $user = new User([
                 'full_name' => $request->full_name,
                 'national_code' => $request->national_code,
-                'doc_code' => $request->doc_code,
-                'mobile' => $request->phon_number,
+                'docter_code' => $request->docter_code,
+                'mobile' => $request->phone_number,
                 'password' => bcrypt($request->password),
                 'role' => 'docter',
             ]);
@@ -30,8 +30,8 @@ class LabDocterSonoController extends Controller
         } elseif ($request->role == 'laboratory') {
             $user = new User([
                 'full_name' => $request->full_name,
-                'lab_code' => $request->lab_code,
-                'mobile' => $request->phon_number,
+                'center_number' => $request->center_number,
+                'mobile' => $request->phone_number,
                 'password' => bcrypt($request->password),
                 'role' => 'laboratory',
             ]);
@@ -45,8 +45,8 @@ class LabDocterSonoController extends Controller
         } elseif ($request->role == 'sonography') {
             $user = new User([
                 'full_name' => $request->full_name,
-                'lab_code' => $request->lab_code,
-                'mobile' => $request->phon_number,
+                'center_number' => $request->center_number,
+                'mobile' => $request->phone_number,
                 'password' => bcrypt($request->password),
                 'role' => 'sonography',
             ]);
