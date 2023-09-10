@@ -23,8 +23,9 @@ class VerifyUserController extends Controller
             $UpdateUser1 = $user->update([
                 'is_approved' => 1,
             ]);
+
         }
-        if ($UpdateUser1) {
+        if ($user->is_approved = 1) {
             try {
                 $sender = "1000630006300";        //This is the Sender number
                 $message = 'حساب کاربری شما در سامانه یکپارچه تشخیصی تایید شد . اکنون می توانید وارد شوید';       //The body of SMS
@@ -40,7 +41,7 @@ class VerifyUserController extends Controller
             }
         } else {
             return response()->json([
-                'پیام' => '!!حساب کاربری تایید نشد',
+                'پیام' => 'حساب کاربری غیرفعال شد',
             ]);
         }
     }

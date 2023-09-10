@@ -38,9 +38,9 @@ class AdminApproval
             }
 
             // اعتبار سنجی و چک کردن ثبت سونوگرافی و ازمایشگاه
-        } elseif ($request->lab_code) {
-            $user = User::where('lab_code', $request->lab_code)->first();
-            if ($user->lab_code) {
+        } elseif ($request->center_number) {
+            $user = User::where('center_number', $request->center_number)->first();
+            if ($user->center_number) {
                 if (!$user->is_approved) {
                     return response()->json([
                         'massege' => 'شما هنوز توسط ادمین تایید نشداید'

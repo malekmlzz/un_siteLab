@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Storage;
 class ImageUploader{
 
 
-    public static function Upload($image , $path , $disctype)
+    public static function Upload( $image  ,$path , $disctype)
     {
         Storage::disk($disctype)->put($path , File::get($image));
+ 
     }
 }

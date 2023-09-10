@@ -4,7 +4,7 @@ namespace App\Http\Requests\Laboratory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class LabStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,10 @@ class StoreRequest extends FormRequest
     {
         return [
             'full_name' => 'required|string|max:255',
-            'lab_code' => 'required|unique:users',
-            'phon_number' => 'required',
+            'center_number' => 'required',
+            'phone_number' => 'required',
             'role' => 'required',
             'password' => 'required|min:8'
         ];
     }
-
 }

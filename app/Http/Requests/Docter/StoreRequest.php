@@ -26,9 +26,9 @@ class StoreRequest extends FormRequest
         return [
             'full_name' => 'required|string|max:255',
             'national_code' => 'required|numeric',
-            'doc_code' => 'required',
+            'docter_code' => 'required',
             'role' => 'required',
-            'phon_number' => 'required|numeric',
+            'phone_number' => 'required|numeric',
             'password' => 'required|min:8',
         ];
     }

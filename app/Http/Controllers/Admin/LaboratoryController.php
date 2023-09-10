@@ -6,6 +6,7 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Laboratory\LabStoreRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Laboratory\StoreRequest;
 
@@ -20,7 +21,7 @@ class LaboratoryController extends Controller
         ]);
     }
 
-    public function store(StoreRequest $request)
+    public function store(LabStoreRequest $request)
     {
        
 
@@ -29,9 +30,9 @@ class LaboratoryController extends Controller
             $Addlaboratory = User::create([
 
                 'full_name' => $validatData['full_name'],
-                'lab_code' => $validatData['lab_code'],
+                'center_number' => $validatData['center_number'],
                 'role' => $validatData['role'],
-                'mobile' => $validatData['phon_number'],
+                'mobile' => $validatData['phone_number'],
                 'password' => Hash::make($validatData['password'],),
 
             ]);
