@@ -29,7 +29,7 @@ class DocterController extends Controller
                 'docter_code' => $validatData['docter_code'],
                 'role' => $validatData['role'],
                 'mobile' => $validatData['phone_number'],
-                'password' => Hash::make($validatData['password'])
+                'password' => $validatData['password'],
             ]);
             return response()->json($AddDocter, 200);
         } catch (Exception $error) {

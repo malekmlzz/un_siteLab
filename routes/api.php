@@ -47,6 +47,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::post('admin/store', [AdminController::class, 'store']);
+    Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
     Route::middleware(['jwt.auth'])->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('', [AdminController::class, 'index']);
@@ -77,6 +78,5 @@ Route::prefix('v1')->group(function () {
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
         Route::post('docter/dashborad/serach', [DoctersDashbordeController::class, 'serach']);
         Route::post('changePassword', [ChangePasswordCnotroller::class, 'changePassword']);
-        Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
     });
 });

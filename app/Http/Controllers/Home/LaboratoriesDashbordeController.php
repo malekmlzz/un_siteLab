@@ -22,19 +22,18 @@ class LaboratoriesDashbordeController extends Controller
         $validatData = $request->validated();
         $patient = new Patient();
         $user = Auth::user();
-        $files [] = $request->file('experiment_file');
-        
+        $files[] = $request->file('experiment_file');
         try {
-            foreach($files as  $file) { 
+            foreach ($files as  $file) {
                 $basepath = 'experiments/' . $validatData['national_code'] . '/';
                 $sorcefilepath = $basepath . 'experiment' . $file->getClientOriginalName();
-                ImageUploader::Upload( $file , $sorcefilepath , 'local_storage');
+                ImageUploader::Upload($file, $sorcefilepath, 'local_storage');
             }
 
             $patient->experiment_name = $validatData['experiment_name'];
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
-            $patient->experiment_file = $sorcefilepath ;
+            $patient->experiment_file = $sorcefilepath;
             $patient->lab_name = $user->full_name;
             $patients = $patient->save();
 
@@ -63,21 +62,22 @@ class LaboratoriesDashbordeController extends Controller
     public function sendExperimetForPatient($patient_id)
     {
         $patient = Patient::find($patient_id);
-       // try {
-
-        //     $link = 
-        //     $sender = "1000630006300";        //This is the Sender number
-        //     $message = 'لینک دانلود نتیجه ازمایش :' . $link;        //The body of SMS
-
-        //     //Receptors numbers
-        //     $result = Kavenegar::Send($sender, $patient->mobile, $message);
-        //     //$result = Kavenegar::Send($sender, $patient->mobile, $message);
-        // } catch (ApiException $e) {
-        //     // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
-        //     echo $e->errorMessage();
-        // } catch (HttpException $e) {
-        //     // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-        //     echo $e->errorMessage();
-        // }
+        try {
+            $url = Storage::url('app/local_storage/' . $patient->experiment_file);
+            $receptor = $patient->mobile;
+            $token = $url;
+            $token2 = "44";
+            $token3 = "789";
+            $template = "sendExperiment";
+            //Send null for tokens not defined in the template
+            //Pass token10 and token20 as parameter 6th and 7th
+            $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
+        } catch (\Kavenegar\Exceptions\ApiException $e) {
+            // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+            echo $e->errorMessage();
+        } catch (\Kavenegar\Exceptions\HttpException $e) {
+            // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+            echo $e->errorMessage();
+        }
     }
 }

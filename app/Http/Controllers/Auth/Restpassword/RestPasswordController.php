@@ -22,35 +22,32 @@ class RestPasswordController extends Controller
             $user = User::where('center_number', $request->center_number)->first();
         } else {
             return response()->json([
-                'massege' => 'لطفا کد ملی یا کد ازمایشگاه وارد کنیید'
+                'massege' => 'لطفا کد ملی یا کد ازمایشگاه وارد کنید'
             ]);
         }
 
-        if ($user) {
-            try{
+        if ($user->is_approved == 1) {
+            try {
                 $receptor = $user->mobile;
                 $token = mt_rand(100000, 999999);
                 $token2 = "456";
                 $token3 = "789";
-                $template="verify";
+                $template = "verify";
                 //Send null for tokens not defined in the template
                 //Pass token10 and token20 as parameter 6th and 7th
                 $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
                 if($result){
-                    
-                    Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
-                    return response()->json([
-                        'data' => $user,
-                        'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
-                    ]);
-
-                }
+                Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
+                return response()->json([
+                    'data' => $user->id,
+                    'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
+                ]);
             }
-            catch(\Kavenegar\Exceptions\ApiException $e){
+            }
+            catch (\Kavenegar\Exceptions\ApiException $e) {
                 // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
                 echo $e->errorMessage();
-            }
-            catch(\Kavenegar\Exceptions\HttpException $e){
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
                 // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
                 echo $e->errorMessage();
             }
@@ -71,7 +68,7 @@ class RestPasswordController extends Controller
 
             $user->password = Hash::make($request->password);
             $user->save();
-            if ($user->password) {
+            if ($user) {
                 return response()->json([
                     'message' => 'رمز با موفقیت بازیابی شد'
                 ]);

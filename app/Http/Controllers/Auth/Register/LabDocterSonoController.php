@@ -17,7 +17,7 @@ class LabDocterSonoController extends Controller
                 'national_code' => $request->national_code,
                 'docter_code' => $request->docter_code,
                 'mobile' => $request->phone_number,
-                'password' => bcrypt($request->password),
+                'password' => $request->password,
                 'role' => 'docter',
             ]);
             $user->save();
@@ -32,7 +32,7 @@ class LabDocterSonoController extends Controller
                 'full_name' => $request->full_name,
                 'center_number' => $request->center_number,
                 'mobile' => $request->phone_number,
-                'password' => bcrypt($request->password),
+                'password' => $request->password,
                 'role' => 'laboratory',
             ]);
 
@@ -47,7 +47,7 @@ class LabDocterSonoController extends Controller
                 'full_name' => $request->full_name,
                 'center_number' => $request->center_number,
                 'mobile' => $request->phone_number,
-                'password' => bcrypt($request->password),
+                'password' => $request->password,
                 'role' => 'sonography',
             ]);
 

@@ -33,7 +33,7 @@ class SonograpyController extends Controller
                 'center_number' => $validatData['center_number'],
                 'role' => $validatData['role'],
                 'mobile' => $validatData['phone_number'],
-                'password' => Hash::make($validatData['password'],),
+                'password' => $validatData['password'],
 
             ]);
 

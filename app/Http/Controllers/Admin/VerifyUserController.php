@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Kavenegar;
 use Kavenegar\Exceptions\ApiException;
 use Kavenegar\Exceptions\HttpException;
@@ -16,33 +17,39 @@ class VerifyUserController extends Controller
     {
         $user = User::find($user_id);
         if ($user->is_approved == 1) {
-            $UpdateUser0 = $user->update([
-                'is_approved' => 0,
+            return response()->json([
+                'massege' => 'کاربر فعال می باشد'
             ]);
         } else {
             $UpdateUser1 = $user->update([
                 'is_approved' => 1,
             ]);
-
-        }
-        if ($user->is_approved = 1) {
             try {
-                $sender = "1000630006300";        //This is the Sender number
-                $message = 'حساب کاربری شما در سامانه یکپارچه تشخیصی تایید شد . اکنون می توانید وارد شوید';       //The body of SMS
+                if ($user->role == 'docter') {
+                    $token = $user->national_code;
+                } else {
+                    $token = $user->center_number;
+                }
+                $receptor = $user->mobile;
+                $token2 = $user->password;
+                $token3 = "789";
+                $template = "activeUser";
+                //Send null for tokens not defined in the template
+                //Pass token10 and token20 as parameter 6th and 7th
+                $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
 
-                //Receptors numbers
-                $result = Kavenegar::Send($sender, $user->mobile, $message);
-            } catch (ApiException $e) {
+                if($result){
+                    $Updateuserpass = $user->update([
+                        'password' => Hash::make($user->password),
+                    ]);
+                }
+            } catch (\Kavenegar\Exceptions\ApiException $e) {
                 // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
                 echo $e->errorMessage();
-            } catch (HttpException $e) {
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
                 // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
                 echo $e->errorMessage();
             }
-        } else {
-            return response()->json([
-                'پیام' => 'حساب کاربری غیرفعال شد',
-            ]);
         }
     }
 }
