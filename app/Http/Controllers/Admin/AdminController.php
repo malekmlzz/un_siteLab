@@ -12,20 +12,21 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $admins = User::where('role' , 'admin')->paginate(8);
+        $admins = User::where('role', 'admin')->paginate(8);
         return response()->json([
-            'data' => $admins ,
+            'data' => $admins,
         ]);
     }
     public function store(StoreRequest $request)
     {
+
         try {
             $validatData = $request->validated();
             $addAdmin = User::create([
                 'full_name' => $validatData['full_name'],
                 'role' => $validatData['role'],
                 'email' => $validatData['email'],
-                'password' => Hash::make( $validatData['password'])
+                'password' => Hash::make($validatData['password'])
             ]);
             return response()->json($addAdmin, 200);
         } catch (Exception $error) {
