@@ -42,7 +42,7 @@ class LaboratoriesDashbordeController extends Controller
 
                 return response()->json([
                     'data' => $patient,
-                ]);
+                ] ,200);
             }
         } catch (\Exception $e) {
             return response()->json([

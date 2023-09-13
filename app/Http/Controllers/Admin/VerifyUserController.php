@@ -19,7 +19,7 @@ class VerifyUserController extends Controller
         if ($user->is_approved == 1) {
             return response()->json([
                 'massege' => 'کاربر فعال می باشد'
-            ]);
+            ] , 200);
         } else {
             if ($user->role == 'docter') {
                 $token = $user->national_code;

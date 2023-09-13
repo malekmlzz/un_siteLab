@@ -28,7 +28,7 @@ class RestPasswordController extends Controller
 
         if ($user->is_approved == 1) {
             try {
-                $receptor = $user->mobile;
+                $receptor = $user->phone_number;
                 $token = mt_rand(100000, 999999);
                 $token2 = "456";
                 $token3 = "789";
@@ -57,9 +57,10 @@ class RestPasswordController extends Controller
         }
     }
 
-    public function verifyPasswordRestCode(Request $request, $id)
+    public function verifyPasswordRestCode(Request $request)
     {
-        $user = User::find($id);
+        
+        $user = User::where('phone_number', $request->phone_number)->paginate(8);
         $code = $request->code;
 
         $cachedCode = Cache::get('password_rest_code:' . $user->id);
@@ -75,7 +76,7 @@ class RestPasswordController extends Controller
         } else {
             return response()->json([
                 'message' => 'کد وارد شده معتبر نمی باشد'
-            ]);
+            ],400);
         }
     }
 }

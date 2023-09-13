@@ -24,6 +24,6 @@ class AdminDashboardController extends Controller
             'countSonograph' => $countSonograph,
             'countAdmin' => $countAdmin,
             'Patient' => $Patient,
-        ]);
+        ]  ,200);
     }
 }

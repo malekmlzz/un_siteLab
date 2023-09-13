@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LabDocterSonoLoginController extends Controller
@@ -14,20 +15,25 @@ class LabDocterSonoLoginController extends Controller
     {
         // Login Docters
         if ($request->national_code) {
+            $validate = Validator::make($request->all(), [
+                'national_code' => ['required', 'numeric'],
+                'password' => ['required'],
+            ]);
+            if ($validate->fails()) {
+                return response()->json([
+                    'message' => $validate->errors()->first(),
+                ] , 422);
+            }
+
             $credentilas = $request->only('national_code', 'password');
 
             if (!JWTAuth::attempt($credentilas)) {
-                return response()->json(['error' => 'حساب کاربری موجود نیست'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
-<<<<<<< HEAD
-=======
             $user = Auth::user();
             if (!$user->is_approved) {
-                return response()->json([
-                    'massege' => 'حساب کاربری تایید نشده است'
-                ] , 401);
+                return response()->json(['error' => 'حساب کاربری تایید نشده است'], 401);
             }
->>>>>>> develop
             $token = JWTAuth::attempt($credentilas);
             return response()->json([
                 'token' => $token,
@@ -36,8 +42,7 @@ class LabDocterSonoLoginController extends Controller
 
             // login laboratory and Sonograpy
         } elseif ($request->center_number) {
-<<<<<<< HEAD
-=======
+           
             $validate = Validator::make($request->all(), [
                 'center_number' => ['required'],
                 'password' => ['required'],
@@ -45,39 +50,24 @@ class LabDocterSonoLoginController extends Controller
             if ($validate->fails()) {
                 return response()->json([
                     'message' => $validate->errors()->first(),
-                ]);
+                ] , 400);
             }
->>>>>>> develop
+
             $credentilas = $request->only('center_number', 'password');
-
-
             if (!JWTAuth::attempt($credentilas)) {
-                return response()->json(['error' => 'حساب کاربری موجود نیست'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
-<<<<<<< HEAD
-=======
             $user = Auth::user();
             if (!$user->is_approved) {
-                return response()->json([
-                    'massege' => 'حساب کاربری تایید نشده است'
-                ] , 401);
+                return response()->json(['error' => 'حساب کاربری تایید نشده است'], 401);
             }
->>>>>>> develop
             $token = JWTAuth::attempt($credentilas);
             return response()->json([
                 'token' => $token,
                 'message' => 'ورود با موفقیت انجام شد'
             ], 200);
-
-            // try {
-            //     $token = JWTAuth::attempt($credentilas);
-            //     return response()->json([
-            //         'token' => $token,
-            //     ], 400);
-
-            // } catch (JWTException $e) {
-            //     return response()->json($e, 400);
-            // }
+        } else {
+            return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 422);
         }
     }
 }

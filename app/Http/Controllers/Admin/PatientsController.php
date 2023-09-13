@@ -13,6 +13,8 @@ class PatientsController extends Controller
     {
          $patients = Patient::paginate(8);
 
-         return response()->json($patients);
+         return response()->json([
+           'data' => $patients ,
+         ],200 );
     }
 }

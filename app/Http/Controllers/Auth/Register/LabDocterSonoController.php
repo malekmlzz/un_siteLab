@@ -16,7 +16,7 @@ class LabDocterSonoController extends Controller
                 'full_name' => $request->full_name,
                 'national_code' => $request->national_code,
                 'docter_code' => $request->docter_code,
-                'mobile' => $request->phone_number,
+                'phone_number' => $request->phone_number,
                 'password' => $request->password,
                 'role' => 'docter',
             ]);
@@ -24,14 +24,14 @@ class LabDocterSonoController extends Controller
             // return Json Response for user
             return response()->json([
                 'status' => 'ثبت نام شما با موفقیت انجام شد وقتی حساب شما تایید شد به شما اطلاع میدهیم',
-            ], 201);
+            ], 200);
 
             //register laboratory
         } elseif ($request->role == 'laboratory') {
             $user = new User([
                 'full_name' => $request->full_name,
                 'center_number' => $request->center_number,
-                'mobile' => $request->phone_number,
+                'phone_number' => $request->phone_number,
                 'password' => $request->password,
                 'role' => 'laboratory',
             ]);
@@ -41,12 +41,12 @@ class LabDocterSonoController extends Controller
             // return Json Response for user
             return response()->json([
                 'status' => 'ثبت نام شما با موفقیت انجام شد وقتی حساب شما تایید شد به شما اطلاع میدهیم',
-            ], 201);
+            ], 200);
         } elseif ($request->role == 'sonography') {
             $user = new User([
                 'full_name' => $request->full_name,
                 'center_number' => $request->center_number,
-                'mobile' => $request->phone_number,
+                'phone_number' => $request->phone_number,
                 'password' => $request->password,
                 'role' => 'sonography',
             ]);
@@ -56,7 +56,7 @@ class LabDocterSonoController extends Controller
             // return Json Response for user
             return response()->json([
                 'status' => 'ثبت نام شما با موفقیت انجام شد وقتی حساب شما تایید شد به شما اطلاع میدهیم',
-            ], 201);
+            ], 200);
         }
     }
 }

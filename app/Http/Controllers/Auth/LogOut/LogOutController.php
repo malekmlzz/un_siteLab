@@ -15,6 +15,6 @@ class LogOutController extends Controller
     JWTAuth::invalidate($token);
     return response()->json([
         'message' => 'Successfully logged out',
-    ]);
+    ] , 200);
    }
 }

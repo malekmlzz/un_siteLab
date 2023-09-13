@@ -15,7 +15,7 @@ class AdminController extends Controller
         $admins = User::where('role', 'admin')->paginate(8);
         return response()->json([
             'data' => $admins,
-        ]);
+        ] , 200);
     }
     public function store(StoreRequest $request)
     {

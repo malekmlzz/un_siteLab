@@ -23,7 +23,7 @@ class ChangePasswordCnotroller extends Controller
          ]);
          return response()->json([
             'massege' => 'رمز با موفقیت تغییر یافت ',
-        ], 400);
+        ], 200);
         }
     }
 }

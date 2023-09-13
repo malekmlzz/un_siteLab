@@ -16,7 +16,7 @@ class DocterController extends Controller
         $docters = User::where('role', 'docter')->paginate(8);
         return response()->json([
             'data' => $docters,
-        ]);
+        ] , 200);
     }
     public function store(StoreRequest $request)
     {

@@ -19,14 +19,12 @@ class DoctersDashbordeController extends Controller
         // dd($patients);
          if($patients){
             return response()->json([
-                'status' => 'success' ,
                 'data' =>$patients,
-            ]);
+            ] , 200);
          }else
          {
             return response()->json([
-                'status' => 'error' ,
-                'message' => 'بیمار با این کد ملی پیدا نشد',
+                'message' => 'بیمار یافت  نشد',
             ] , 404);
          }
     }

@@ -22,7 +22,7 @@ class LabDocterSonoRegistration
                 'full_name' => 'required|max:255|string',
                 'national_code' => 'required|numeric|unique:users',
                 'docter_code' => 'required|unique:users',
-                'phone_number' => 'required|numeric',
+                'phone_number' => 'required|numeric|unique:users',
                 'role' => 'required',
                 'password' => 'required|min:8|max:255|confirmed',
             ]);
@@ -37,7 +37,7 @@ class LabDocterSonoRegistration
         } elseif ($request->role == 'laboratory') {
             $validator = Validator::make($request->all(), [
                 'full_name' => 'required|string|max:255',
-                'phone_number' => 'required|numeric',
+                'phone_number' => 'required|numeric|unique:users',
                 'center_number' => 'required|unique:users',
                 'password' => 'required|min:8|max:255|confirmed',
                 'role' => 'required',
@@ -53,7 +53,7 @@ class LabDocterSonoRegistration
         } elseif ($request->role == 'sonography') {
             $validator = Validator::make($request->all(), [
                 'full_name' => 'required',
-                'phone_number' => 'required|numeric',
+                'phone_number' => 'required|numeric|unique:users',
                 'center_number' => 'required|unique:users',
                 'password' => 'required|min:8|max:255|confirmed',
                 'role' => 'required',
@@ -70,7 +70,7 @@ class LabDocterSonoRegistration
 
             return response()->json([
                 'message' => 'نقش انتخاب شده موجود نمی باشد'
-            ]);
+            ] , 422);
         }
     }
 }
