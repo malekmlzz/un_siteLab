@@ -28,13 +28,13 @@ class LabDocterSonoLoginController extends Controller
             }
             $credentilas = $request->only('national_code', 'password');
             if (!JWTAuth::attempt($credentilas)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'حساب کاربری موجود نیست'], 401);
             }
             $user = Auth::user();
             if (!$user->is_approved) {
                 return response()->json([
                     'massege' => 'حساب کاربری تایید نشده است'
-                ]);
+                ] , 401);
             }
             $token = JWTAuth::attempt($credentilas);
             return response()->json([
@@ -44,7 +44,6 @@ class LabDocterSonoLoginController extends Controller
 
             // login laboratory and Sonograpy
         } elseif ($request->center_number) {
-
             $validate = Validator::make($request->all(), [
                 'center_number' => ['required'],
                 'password' => ['required'],
@@ -56,13 +55,13 @@ class LabDocterSonoLoginController extends Controller
             }
             $credentilas = $request->only('center_number', 'password');
             if (!JWTAuth::attempt($credentilas)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'حساب کاربری موجود نیست'], 401);
             }
             $user = Auth::user();
             if (!$user->is_approved) {
                 return response()->json([
                     'massege' => 'حساب کاربری تایید نشده است'
-                ]);
+                ] , 401);
             }
             $token = JWTAuth::attempt($credentilas);
             return response()->json([
