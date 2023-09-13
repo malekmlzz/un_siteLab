@@ -8,6 +8,7 @@ use Exceptions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminApproval
 {
@@ -19,39 +20,59 @@ class AdminApproval
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
-    {     
+    {
         // اعتبار سنجی و چک کردن ثبت نام پزشک
         if ($request->national_code) {
+            $validate = Validator::make($request->all(), [
+                'national_code' => ['required', 'numeric'],
+                'password' => ['required'],
+            ]);
+            if ($validate->fails()) {
+                return response()->json([
+                    'message' => $validate->errors()->first(),
+                ]);
+            }
             $user = User::where('national_code', $request->national_code)->first();
-            if ($user->national_code) {
+            if ($user) {
                 if (!$user->is_approved) {
                     return response()->json([
-                        'massege' => 'شما هنوز توسط ادمین تایید نشداید'
+                        'massege' => 'حساب کاربری تایید نشده است'
                     ]);
                 } else {
                     return $next($request);
                 }
             } else {
                 return response()->json([
-                    'massege' => 'شما هنوز ثبت نام نکرده اید'
+                    'massege' => 'حساب کاربری موجود نیست'
                 ]);
             }
 
             // اعتبار سنجی و چک کردن ثبت سونوگرافی و ازمایشگاه
         } elseif ($request->center_number) {
-            $user = User::where('center_number', $request->center_number)->first();
-            if ($user->center_number) {
-                if (!$user->is_approved) {
-                    return response()->json([
-                        'massege' => 'شما هنوز توسط ادمین تایید نشداید'
-                    ]);
-                } else {
-                    return $next($request);
-                }
-            } else {
-                return response()->json([
-                    'massege' => 'کد ازمایشگاه معتبر نیست'
+            if ($request->national_code) {
+                $validate = Validator::make($request->all(), [
+                    'center_number' => ['required'],
+                    'password' => ['required'],
                 ]);
+                if ($validate->fails()) {
+                    return response()->json([
+                        'message' => $validate->errors()->first(),
+                    ]);
+                }
+                $user = User::where('center_number', $request->center_number)->first();
+                if ($user) {
+                    if (!$user->is_approved) {
+                        return response()->json([
+                            'massege' => 'حساب کاربری تایید نشده است'
+                        ]);
+                    } else {
+                        return $next($request);
+                    }
+                } else {
+                    return response()->json([
+                        'massege' => ' حساب کاربری موجود نیست'
+                    ]);
+                }
             }
         }
     }
