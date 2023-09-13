@@ -30,26 +30,25 @@ class AdminApproval
             if ($validate->fails()) {
                 return response()->json([
                     'message' => $validate->errors()->first(),
-                ]);
+                ] , 422);
             }
             $user = User::where('national_code', $request->national_code)->first();
             if ($user) {
                 if (!$user->is_approved) {
                     return response()->json([
                         'massege' => 'حساب کاربری تایید نشده است'
-                    ]);
+                    ] ,401);
                 } else {
                     return $next($request);
                 }
             } else {
                 return response()->json([
                     'massege' => 'حساب کاربری موجود نیست'
-                ]);
+                ],401);
             }
 
             // اعتبار سنجی و چک کردن ثبت سونوگرافی و ازمایشگاه
         } elseif ($request->center_number) {
-            if ($request->national_code) {
                 $validate = Validator::make($request->all(), [
                     'center_number' => ['required'],
                     'password' => ['required'],
@@ -57,23 +56,22 @@ class AdminApproval
                 if ($validate->fails()) {
                     return response()->json([
                         'message' => $validate->errors()->first(),
-                    ]);
+                    ] ,422);
                 }
                 $user = User::where('center_number', $request->center_number)->first();
                 if ($user) {
                     if (!$user->is_approved) {
                         return response()->json([
                             'massege' => 'حساب کاربری تایید نشده است'
-                        ]);
+                        ] , 401);
                     } else {
                         return $next($request);
                     }
                 } else {
                     return response()->json([
                         'massege' => ' حساب کاربری موجود نیست'
-                    ]);
+                    ] , 401);
                 }
             }
         }
     }
-}

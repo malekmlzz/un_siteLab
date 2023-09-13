@@ -16,28 +16,28 @@ class LabDocterSonoLoginController extends Controller
         if ($request->national_code) {
             $credentilas = $request->only('national_code', 'password');
 
-            try {
-                $token = JWTAuth::attempt($credentilas);
-                return response()->json([
-                    'token' => $token,
-                ], 400);
-            } catch (JWTException $e) {
-                return response()->json($e, 400);
+            if (!JWTAuth::attempt($credentilas)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
+            $token = JWTAuth::attempt($credentilas);
+            return response()->json([
+                'token' => $token,
+                'message' => 'ورود با موفقیت انجام شد'
+            ], 200);
 
             // login laboratory and Sonograpy
         } elseif ($request->center_number) {
             $credentilas = $request->only('center_number', 'password');
 
 
-            if (Auth::attempt($credentilas)) {
-                $user = Auth::user();
-                $token = JWTAuth::fromUser($user);
-                return response()->json([
-                    'token' => $token,
-                ], 400);
+            if (!JWTAuth::attempt($credentilas)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
-          response()->json(['error' => 'Unauthorized'] , 401);
+            $token = JWTAuth::attempt($credentilas);
+            return response()->json([
+                'token' => $token,
+                'message' => 'ورود با موفقیت انجام شد'
+            ], 200);
 
             // try {
             //     $token = JWTAuth::attempt($credentilas);
