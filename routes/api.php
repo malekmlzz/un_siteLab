@@ -41,9 +41,9 @@ Route::prefix('v1')->group(function () {
     Route::get('logout', [LogOutController::class, 'logout'])->middleware('jwt.auth');
     Route::prefix('login')->group(function () {
         Route::post('admin', [AdminLoginController::class, 'login']);
-        Route::middleware(['admin.approval'])->group(function () {
+        //Route::middleware(['admin.approval'])->group(function () {
             Route::post('users', [LabDocterSonoLoginController::class, 'login']);
-        });
+        //});
     });
 
     Route::post('admin/store', [AdminController::class, 'store']);

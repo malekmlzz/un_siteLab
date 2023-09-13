@@ -39,9 +39,8 @@ class RestPasswordController extends Controller
                 if($result){
                 Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
                 return response()->json([
-                    'data' => $user->id,
                     'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
-                ]);
+                ] , 200);
             }
             }
             catch (\Kavenegar\Exceptions\ApiException $e) {
@@ -54,7 +53,7 @@ class RestPasswordController extends Controller
         } else {
             return response()->json([
                 'massege' => 'حساب کاربری موجود نیست'
-            ]);
+            ] , 401);
         }
     }
 
@@ -71,7 +70,7 @@ class RestPasswordController extends Controller
             if ($user) {
                 return response()->json([
                     'message' => 'رمز با موفقیت بازیابی شد'
-                ]);
+                ] , 200);
             }
         } else {
             return response()->json([
