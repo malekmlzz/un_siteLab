@@ -23,7 +23,7 @@ class AdminApproval
         // اعتبار سنجی و چک کردن ثبت نام پزشک
         if ($request->national_code) {
             $user = User::where('national_code', $request->national_code)->first();
-            if ($user->national_code) {
+            if ($user) {
                 if (!$user->is_approved) {
                     return response()->json([
                         'massege' => 'شما هنوز توسط ادمین تایید نشداید'
@@ -33,14 +33,14 @@ class AdminApproval
                 }
             } else {
                 return response()->json([
-                    'massege' => 'شما هنوز ثبت نام نکرده اید'
+                    'massege' => ' کد ملی ثبت نام نشده است '
                 ]);
             }
 
             // اعتبار سنجی و چک کردن ثبت سونوگرافی و ازمایشگاه
         } elseif ($request->center_number) {
             $user = User::where('center_number', $request->center_number)->first();
-            if ($user->center_number) {
+            if ($user) {
                 if (!$user->is_approved) {
                     return response()->json([
                         'massege' => 'شما هنوز توسط ادمین تایید نشداید'
@@ -50,7 +50,7 @@ class AdminApproval
                 }
             } else {
                 return response()->json([
-                    'massege' => 'کد ازمایشگاه معتبر نیست'
+                    'massege' => 'کد ازمایشگاه ثبت نام نشده است'
                 ]);
             }
         }

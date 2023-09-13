@@ -39,7 +39,6 @@ class RestPasswordController extends Controller
                 if($result){
                 Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
                 return response()->json([
-                    'data' => $user->id,
                     'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
                 ]);
             }
