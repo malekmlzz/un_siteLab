@@ -19,7 +19,7 @@ class VerifyUserController extends Controller
         if ($user->is_approved == 1) {
             return response()->json([
                 'massege' => 'کاربر فعال می باشد'
-            ] , 200);
+            ], 200);
         } else {
             if ($user->role == 'docter') {
                 $token = $user->national_code;
@@ -28,17 +28,20 @@ class VerifyUserController extends Controller
             }
             $UpdateUser1 = $user->update([
                 'is_approved' => 1,
-                'password' => Hash::make($user->password),
             ]);
             if ($UpdateUser1) {
+                $receptor = $user->phone_number;
+                $token2 = $user->password;
+                $token3 = "789";
+                $template = "activeUser";
+                $Updatepass = $user->update([
+                    'password' => Hash::make($user->password),
+                ]);
                 try {
-                    $receptor = $user->mobile;
-                    $token2 = $user->password;
-                    $token3 = "789";
-                    $template = "activeUser";
+
                     //Send null for tokens not defined in the template
                     //Pass token10 and token20 as parameter 6th and 7th
-                    Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
+                    $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
                 } catch (\Kavenegar\Exceptions\ApiException $e) {
                     // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
                     echo $e->errorMessage();

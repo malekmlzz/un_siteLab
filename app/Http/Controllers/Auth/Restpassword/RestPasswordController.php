@@ -59,8 +59,11 @@ class RestPasswordController extends Controller
 
     public function verifyPasswordRestCode(Request $request)
     {
-        
-        $user = User::where('phone_number', $request->phone_number)->paginate(8);
+        if ($request->national_code) {
+            $user = User::where('national_code', $request->national_code)->first();
+        } elseif ($request->center_number) {
+            $user = User::where('center_number', $request->center_number)->first();
+        } 
         $code = $request->code;
 
         $cachedCode = Cache::get('password_rest_code:' . $user->id);
