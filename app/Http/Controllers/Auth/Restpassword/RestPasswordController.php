@@ -23,7 +23,7 @@ class RestPasswordController extends Controller
         } else {
             return response()->json([
                 'massege' => 'لطفا کد ملی یا کد ازمایشگاه وارد کنید'
-            ]);
+            ],401);
         }
 
         if ($user->is_approved == 1) {

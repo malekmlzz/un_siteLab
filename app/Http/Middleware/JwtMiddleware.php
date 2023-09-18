@@ -19,14 +19,23 @@ class JwtMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-       
-    
-            $token = JWTAuth::parseToken();
-            $user = $token->authenticate();
-             if($user){
-                return $next($request); 
-             }else{
-                response()->json(['status' => 'Authorization Token not found']);
-             }
+            if($request->cookie('jwt_token')){
+               $token = $request->cookie('jwt_token');
+               $request->headers->set('Authorization' , 'Bearer' . $token);
+
+               return $next($request); 
+            }
+            else{
+               response()->json(['status' => 'Authorization Token not found'],401);
+            }
+            
+            // $token = JWTAuth::parseToken();
+            // $user = $token->authenticate();
+            //  if($user){
+               
+            //     return $next($request); 
+            //  }else{
+            //     response()->json(['status' => 'Authorization Token not found'],401);
+            //  }
     }
 }

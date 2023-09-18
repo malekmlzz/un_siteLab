@@ -35,10 +35,16 @@ class LabDocterSonoLoginController extends Controller
                 return response()->json(['error' => 'حساب کاربری تایید نشده است'], 401);
             }
             $token = JWTAuth::attempt($credentilas);
+           
+            cookie()->queue('jwt_token',$token,60,null,null,true,true);
             return response()->json([
-                'token' => $token,
-                'message' => 'ورود با موفقیت انجام شد'
-            ], 200);
+               'success' => true,
+            ],200);
+
+            // return response()->json([
+            //     'token' => $token,
+            //     'message' => 'ورود با موفقیت انجام شد'
+            // ], 200);
 
             // login laboratory and Sonograpy
         } elseif ($request->center_number) {
