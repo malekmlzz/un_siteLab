@@ -36,10 +36,10 @@ class LabDocterSonoLoginController extends Controller
             }
             $token = JWTAuth::attempt($credentilas);
            
-            cookie()->queue('jwt_token',$token,60,null,null,true,true);
+            //cookie()->queue('jwt_token',$token,60,null,null,true,true);
             return response()->json([
-               'success' => true,
-            ],200);
+                'success' => true,
+             ],200)->cookie('jwt_token', $token,60,null,null,true,true);
 
             // return response()->json([
             //     'token' => $token,
@@ -69,9 +69,8 @@ class LabDocterSonoLoginController extends Controller
             }
             $token = JWTAuth::attempt($credentilas);
             return response()->json([
-                'token' => $token,
-                'message' => 'ورود با موفقیت انجام شد'
-            ], 200);
+                'success' =>true,
+             ],200)->cookie('jwt_token', $token,60,null,null,true,true);
         } else {
             return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 422);
         }
