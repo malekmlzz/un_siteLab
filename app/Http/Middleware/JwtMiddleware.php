@@ -18,9 +18,10 @@ class JwtMiddleware
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
-    {
+    {       
             if($request->cookie('jwt_token')){
                $token = $request->cookie('jwt_token');
+               
                $request->headers->set('Authorization' , 'Bearer' . $token);
 
                return $next($request); 
