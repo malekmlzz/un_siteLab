@@ -23,10 +23,13 @@ class JwtMiddleware
 
       if ($request->hasCookie('jwt_token')) {
          $token = $request->cookie('jwt_token');
-         dd($token);
+         
+         return $next($request); 
        // check if token is valid or invalid 
       // if invalid return 401 . 
       // if valid  return$next($request);
+     }else {
+         return response()->json(['status' => 'Authorization Token not found'], 401);
      }
 
 

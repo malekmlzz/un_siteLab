@@ -63,6 +63,7 @@ class LaboratoriesDashbordeController extends Controller
     {
         $patient = Patient::find($patient_id);
         try {
+            
             $url = Storage::url('app/local_storage/' . $patient->experiment_file);
             $receptor = $patient->mobile;
             $token = $url;

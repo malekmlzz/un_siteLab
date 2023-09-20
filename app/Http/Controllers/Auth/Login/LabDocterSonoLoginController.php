@@ -70,7 +70,7 @@ class LabDocterSonoLoginController extends Controller
             $token = JWTAuth::attempt($credentilas);
             return response()->json([
                 'success' =>true,
-             ],200)->cookie('jwt_token', $token,60,null,null,true,true);
+             ],200)->cookie('jwt_token', $token,60,true,true);
         } else {
             return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 422);
         }

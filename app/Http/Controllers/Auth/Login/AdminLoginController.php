@@ -30,7 +30,7 @@ class AdminLoginController extends Controller
         }
         $token = JWTAuth::attempt($credentilas);
         return response()->json([
-            'token' => $token,
-        ], 200);
+            'success' =>true,
+         ],200)->cookie('jwt_token', $token,60,true,true);
     }
 }

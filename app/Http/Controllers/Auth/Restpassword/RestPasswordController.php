@@ -23,37 +23,42 @@ class RestPasswordController extends Controller
         } else {
             return response()->json([
                 'massege' => 'لطفا کد ملی یا کد ازمایشگاه وارد کنید'
-            ],401);
+            ], 401);
         }
 
-        if ($user->is_approved == 1) {
-            try {
-                $receptor = $user->phone_number;
-                $token = mt_rand(100000, 999999);
-                $token2 = "456";
-                $token3 = "789";
-                $template = "verify";
-                //Send null for tokens not defined in the template
-                //Pass token10 and token20 as parameter 6th and 7th
-                $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
-                if($result){
-                Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
+        if ($user) {
+            if ($user->is_approved == 1) {
+                try {
+                    $receptor = $user->phone_number;
+                    $token = mt_rand(100000, 999999);
+                    $token2 = "456";
+                    $token3 = "789";
+                    $template = "verify";
+                    //Send null for tokens not defined in the template
+                    //Pass token10 and token20 as parameter 6th and 7th
+                    $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
+                    if ($result) {
+                        Cache::put('password_rest_code:' . $user->id, $token, now()->addMinute(2));
+                        return response()->json([
+                            'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
+                        ], 200);
+                    }
+                } catch (\Kavenegar\Exceptions\ApiException $e) {
+                    // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
+                    echo $e->errorMessage();
+                } catch (\Kavenegar\Exceptions\HttpException $e) {
+                    // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+                    echo $e->errorMessage();
+                }
+            } else {
                 return response()->json([
-                    'massege' => 'کد یکبار مصرف با موفقیت ارسال شد'
-                ] , 200);
-            }
-            }
-            catch (\Kavenegar\Exceptions\ApiException $e) {
-                // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
-                echo $e->errorMessage();
-            } catch (\Kavenegar\Exceptions\HttpException $e) {
-                // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-                echo $e->errorMessage();
+                    'massege' => 'حساب کاربری تایید نشده است'
+                ], 401);
             }
         } else {
             return response()->json([
                 'massege' => 'حساب کاربری موجود نیست'
-            ] , 401);
+            ], 401);
         }
     }
 
@@ -63,7 +68,7 @@ class RestPasswordController extends Controller
             $user = User::where('national_code', $request->national_code)->first();
         } elseif ($request->center_number) {
             $user = User::where('center_number', $request->center_number)->first();
-        } 
+        }
         $code = $request->code;
 
         $cachedCode = Cache::get('password_rest_code:' . $user->id);
@@ -74,12 +79,12 @@ class RestPasswordController extends Controller
             if ($user) {
                 return response()->json([
                     'message' => 'رمز با موفقیت بازیابی شد'
-                ] , 200);
+                ], 200);
             }
         } else {
             return response()->json([
                 'message' => 'کد وارد شده معتبر نمی باشد'
-            ],400);
+            ], 400);
         }
     }
 }
