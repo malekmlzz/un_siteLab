@@ -25,20 +25,21 @@ class LabDocterSonoLoginController extends Controller
                 ] , 422);
             }
 
-            $credentilas = $request->only('national_code', 'password');
+            $credentials = $request->only('national_code', 'password');
 
-            if (!JWTAuth::attempt($credentilas)) {
+            if (!JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
             $user = Auth::user();
             if (!$user->is_approved) {
                 return response()->json(['error' => 'حساب کاربری تایید نشده است'], 401);
             }
-            $token = JWTAuth::attempt($credentilas);
+            $token = JWTAuth::attempt($credentials);
            
             //cookie()->queue('jwt_token',$token,60,null,null,true,true);
             return response()->json([
                 'success' => true,
+                'data' => $token,
              ],200)->cookie('jwt_token', $token,60,null,null,true,true);
 
             // return response()->json([
@@ -59,17 +60,18 @@ class LabDocterSonoLoginController extends Controller
                 ] , 400);
             }
 
-            $credentilas = $request->only('center_number', 'password');
-            if (!JWTAuth::attempt($credentilas)) {
+            $credentials = $request->only('center_number', 'password');
+            if (!JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
             $user = Auth::user();
             if (!$user->is_approved) {
                 return response()->json(['error' => 'حساب کاربری تایید نشده است'], 401);
             }
-            $token = JWTAuth::attempt($credentilas);
+            $token = JWTAuth::attempt($credentials);
             return response()->json([
                 'success' =>true,
+                'data' => $token,
              ],200)->cookie('jwt_token', $token,60,true,true);
         } else {
             return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 422);

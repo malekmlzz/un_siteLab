@@ -23,14 +23,15 @@ class AdminLoginController extends Controller
                 'message' => $validate->errors()->first(),
             ], 422);
         }
-        $credentilas = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
-        if (!JWTAuth::attempt($credentilas)) {
+        if (!JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $token = JWTAuth::attempt($credentilas);
+        $token = JWTAuth::attempt($credentials);
         return response()->json([
             'success' =>true,
+            'data'=> $token,
          ],200)->cookie('jwt_token', $token,60,true,true);
     }
 }
