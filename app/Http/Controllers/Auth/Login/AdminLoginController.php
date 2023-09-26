@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Symfony\Component\HttpFoundation\Cookie;
 class AdminLoginController extends Controller
 {
     public function login(Request $request)
@@ -25,13 +25,16 @@ class AdminLoginController extends Controller
         }
         $credentials = $request->only('email', 'password');
 
+
         if (!JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        
         $token = JWTAuth::attempt($credentials);
+       
         return response()->json([
             'success' =>true,
             'data'=> $token,
-         ],200)->cookie('jwt_token', $token,60,true,true);
+         ],200)->cookie('jwt_token', $token,config('jwt.ttl'),60,true,true);
     }
 }

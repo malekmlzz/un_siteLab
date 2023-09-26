@@ -36,7 +36,7 @@ Route::prefix('v1')->group(function () {
     });
     Route::prefix('restPassword')->group(function () {
         Route::post('sendCode', [RestPasswordController::class, 'sendPasswordRestCode']);
-        Route::post('vrifyCode/{user_id}', [RestPasswordController::class, 'verifyPasswordRestCode']);
+        Route::post('vrifyCode', [RestPasswordController::class, 'verifyPasswordRestCode']);
     });
     Route::get('logout', [LogOutController::class, 'logout'])->middleware('jwt.auth');
     Route::prefix('login')->group(function () {
