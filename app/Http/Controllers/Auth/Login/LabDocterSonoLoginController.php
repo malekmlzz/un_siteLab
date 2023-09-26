@@ -36,16 +36,11 @@ class LabDocterSonoLoginController extends Controller
             }
             $token = JWTAuth::attempt($credentials);
            
-            //cookie()->queue('jwt_token',$token,60,null,null,true,true);
+            // cookie()->queue('jwt_token',$token,60,null,null,true,true);
             return response()->json([
                 'success' => true,
                 'data' => $token,
-             ],200)->cookie('jwt_token', $token,60,null,null,true,true);
-
-            // return response()->json([
-            //     'token' => $token,
-            //     'message' => 'ورود با موفقیت انجام شد'
-            // ], 200);
+             ],200)->cookie('jwt_token', $token,config('jwt.ttl'), 60,true,true);    
 
             // login laboratory and Sonograpy
         } elseif ($request->center_number) {
@@ -69,10 +64,11 @@ class LabDocterSonoLoginController extends Controller
                 return response()->json(['error' => 'حساب کاربری تایید نشده است'], 401);
             }
             $token = JWTAuth::attempt($credentials);
+            
             return response()->json([
                 'success' =>true,
                 'data' => $token,
-             ],200)->cookie('jwt_token', $token,60,true,true);
+             ],200)->cookie('jwt_token', $token,config('jwt.ttl'),60,true,true);
         } else {
             return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 422);
         }
