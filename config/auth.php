@@ -50,7 +50,14 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
-        ]
+        ],
+        // //برای کوکی اضافه شد دستی
+        // 'api-cookie' => [
+        //     'driver' => 'jwt',
+        //     'provider' => 'users',
+        //     'access_token' => env('API_COOKIE_TOKEN_NAME'),
+
+        // ],
     ],
 
     /*
