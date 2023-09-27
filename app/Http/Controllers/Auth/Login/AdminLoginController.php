@@ -31,11 +31,10 @@ class AdminLoginController extends Controller
         }
         
         $accesstoken = JWTAuth::attempt($credentials);
-
         return response()->json([
             'success' =>true,
             'data'=> $accesstoken,
-         ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 60));
+         ],200)->withCookie(cookie()->forever('access_token' , $accesstoken , 1440));
 
 
         // return response()->json([
