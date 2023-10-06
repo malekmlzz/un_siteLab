@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\DeleteUsersController;
 use App\Http\Controllers\Admin\DocterController;
 use App\Http\Controllers\Admin\LaboratoryController;
 use App\Http\Controllers\Admin\PatientsController;
@@ -58,20 +59,19 @@ Route::prefix('v1')->group(function () {
 
             Route::get('patient', [PatientsController::class, 'index']);
 
+            Route::delete('delete/{user_id}', [DeleteUsersController::class, 'destroy']);
+
             Route::prefix('docter')->group(function () {
                 Route::get('', [DocterController::class, 'index']);
                 Route::post('store', [DocterController::class, 'store']);
-                Route::delete('delete/{docter_id}', [DocterController::class, 'destroy']);
             });
             Route::prefix('laboratory')->group(function () {
                 Route::get('', [LaboratoryController::class, 'index']);
                 Route::post('store', [LaboratoryController::class, 'store']);
-                Route::delete('delete/{laboratory_id} ', [LaboratoryController::class, 'destroy']);
             });
             Route::prefix('sonography')->group(function () {
                 Route::get('', [SonograpyController::class, 'index']);
                 Route::post('store', [SonograpyController::class, 'store']);
-                Route::delete('delete/{sonography_id} ', [SonograpyController::class, 'destroy']);
             });
         });
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);

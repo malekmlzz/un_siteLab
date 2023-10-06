@@ -70,16 +70,16 @@ POST : send(email)(password)
 ### GET:send user id
 [http://127.0.0.1:8000/api/v1/admin/verifyUser/{user_id}]
 
-## Api insert Experiment patient by laboratory and sonograph
-### POST : send(experiment_name)(national_code)(phon_number)(experiment_file)
+### Api insert Experiment patient by laboratory and sonograph
+#### POST : send(experiment_name)(national_code)(phon_number)(experiment_file)
 [http://127.0.0.1:8000/api/v1/laboratory/dashborad/store]
 
 ## Api serach Experiment patient by Docter
 POST : send(national_code)(start_data)(end_data)
 [http://127.0.0.1:8000/api/v1/docter/dashborad/serach]
 
-## Api change password into panel users by users (laboratory , sonograph , docter)
-### POST : send(old_password)(new_password)
+### Api change password into panel users by users (laboratory , sonograph , docter)
+#### POST : send(old_password)(new_password)
 [http://127.0.0.1:8000/api/v1/changePassword]
 
 ## api download experiment
@@ -87,8 +87,8 @@ POST : send(national_code)(start_data)(end_data)
 [http://127.0.0.1:8000/api/v1/download/experiment/{user_id}]
 
 ## Api rest password 
- POST :for lab and sono send(center_number)
- POST : for docter send(national_code)
+ ### POST :for lab and sono send(center_number)
+ ### POST : for docter send(national_code)
  [http://127.0.0.1:8000/api/v1/restPassword/sendCode]
 
 
