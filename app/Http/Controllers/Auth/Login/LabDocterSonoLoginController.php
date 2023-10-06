@@ -69,6 +69,10 @@ class LabDocterSonoLoginController extends Controller
                 'success' =>true,
                 'data'=> $accesstoken,
              ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 1440));   
+
+
+
+             
         } else {
             return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 400);
         }
