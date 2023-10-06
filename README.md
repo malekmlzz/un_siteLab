@@ -1,65 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+### un-sit
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Api for register laboratory and sonography
+# POST:Send (full_name)(center_number)(phon_number)(role)(password)(password_confirmation)
+[http://127.0.0.1:8000/api/v1/register/users]
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Api for register docter
+# POST:Send (full_name)(national_code)(docter_code)(phon_number)(role)(password)(password_confirmation) 
+[http://127.0.0.1:8000/api/v1/register/users]
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## For laboratory and sonography login 
+# POST : send (center_number) (password)
+[http://127.0.0.1:8000/api/v1/login/users]
 
-## Learning Laravel
+## For docter login
+# POST : send (national_code) (password)
+[http://127.0.0.1:8000/api/v1/login/users]
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## For admin login
+# POST : send(email)(password)
+[http://127.0.0.1:8000/api/v1/login/admin]
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## For logOut
+[http://127.0.0.1:8000/api/v1/logout]
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Api panel admin
+# Add docter whit admin
+# POST: send (full_name)(national_code)(docter_code)(phone_number)(role)(password)
+[http://127.0.0.1:8000/api/v1/admin/docter/store]
 
-### Premium Partners
+## Add laboratory 
+# POST:send(full_name)(center_number)(phone_number)(role)(password)
+[http://127.0.0.1:8000/api/v1/admin/laboratory/store]
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Add sonography
+# POST:send(full_name)(center_number)(phone_number)(role)(password)
+[http://127.0.0.1:8000/api/v1/admin/sonography/store]
 
-## Contributing
+## Add admin 
+# POST : send(full_name)(email)(role)(password)
+[http://127.0.0.1:8000/api/v1/admin/store]
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## api delete users
+# GET: send user_id
+[http://127.0.0.1:8000/api/v1/admin/docter/delete/{user_id}]
 
-## Code of Conduct
+## Api show all docter
+# GET : don’t need to any data
+[http://127.0.0.1:8000/api/v1/admin/docter]
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Show all laboratory
+[http://127.0.0.1:8000/api/v1/admin/laboratory]
 
-## Security Vulnerabilities
+# Api show all sonography
+[http://127.0.0.1:8000/api/v1/admin/sonography]
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Api show all patient
+[http://127.0.0.1:8000/api/v1/admin/patient]
 
-## License
+# Show all admin
+[http://127.0.0.1:8000/api/v1/admin]
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# un_siteLab
+# Api dashboard panel admin
+[http://127.0.0.1:8000/api/v1/admin/dashborad]
+
+## Api verify users
+# GET:send user id
+[http://127.0.0.1:8000/api/v1/admin/verifyUser/{user_id}]
+
+## Api insert Experiment patient by laboratory and sonograph
+# POST : send(experiment_name)(national_code)(phon_number)(experiment_file)
+[http://127.0.0.1:8000/api/v1/laboratory/dashborad/store]
+
+## Api serach Experiment patient by Docter
+# POST : send(national_code)(start_data)(end_data)
+[http://127.0.0.1:8000/api/v1/docter/dashborad/serach]
+
+## Api change password into panel users by users (laboratory , sonograph , docter)
+# POST : send(old_password)(new_password)
+[http://127.0.0.1:8000/api/v1/changePassword]
+
+## api download experiment
+# GET:send user id
+[http://127.0.0.1:8000/api/v1/download/experiment/{user_id}]
+
+## Api rest password 
+ # POST :for lab and sono send(center_number)
+ # POST : for docter send(national_code)
+ [http://127.0.0.1:8000/api/v1/restPassword/sendCode]
+
+
+ ## Receive code
+ # POST : send(code)(national_code)(password)
+
+
+
+
+
+

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+
 class AdminLoginController extends Controller
 {
     public function login(Request $request)
@@ -29,13 +30,13 @@ class AdminLoginController extends Controller
         if (!JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        
-        $accesstoken = JWTAuth::attempt($credentials);
 
+        $accesstoken = JWTAuth::attempt($credentials);
         return response()->json([
-            'success' =>true,
-            'data'=> $accesstoken,
-         ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 60));
+            'success' => true,
+            'data' => $accesstoken,
+
+        ], 200)->withCookie(cookie()->forever('access_token', $accesstoken, 1440));
 
 
         // return response()->json([

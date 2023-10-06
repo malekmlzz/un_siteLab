@@ -40,7 +40,7 @@ class LabDocterSonoLoginController extends Controller
             return response()->json([
                 'success' =>true,
                 'data'=> $accesstoken,
-             ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 60));   
+             ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 1440));   
 
             // login laboratory and Sonograpy
         } elseif ($request->center_number) {
@@ -68,9 +68,13 @@ class LabDocterSonoLoginController extends Controller
             return response()->json([
                 'success' =>true,
                 'data'=> $accesstoken,
-             ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 60));   
+             ],200)->withCookie(cookie()->forever('jwt_token' , $accesstoken , 1440));   
+
+
+
+             
         } else {
-            return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 422);
+            return response()->json(['error' => 'فیلد نام کاربری نمی تواند خالی باشد'], 400);
         }
     }
 }
