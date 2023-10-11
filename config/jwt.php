@@ -278,7 +278,8 @@ return [
         |
         */
 
-        'jwt' => Tymon\JWTAuth\Providers\JWT\Lcobucci::class,
+        'jwt' =>true,
+        //'jwt' => Tymon\JWTAuth\Providers\JWT\Lcobucci::class,
 
         /*
         |--------------------------------------------------------------------------

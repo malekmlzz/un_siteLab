@@ -39,27 +39,26 @@ Route::prefix('v1')->group(function () {
         Route::post('sendCode', [RestPasswordController::class, 'sendPasswordRestCode']);
         Route::post('vrifyCode', [RestPasswordController::class, 'verifyPasswordRestCode']);
     });
-    Route::get('logout', [LogOutController::class, 'logout'])->middleware('jwt.auth');
+    Route::get('logout', [LogOutController::class, 'logout'])->middleware('auth:api');
     Route::prefix('login')->group(function () {
         Route::post('users', [LabDocterSonoLoginController::class, 'login']);
         Route::post('admin', [AdminLoginController::class, 'login']);
-        //Route::middleware(['admin.approval'])->group(function () {
-        //});
     });
 
     Route::post('admin/store', [AdminController::class, 'store']);
-    Route::middleware(['jwt.auth'])->group(function () {
+    
+    Route::middleware(['auth:api'])->group(function () {
+
+        Route::get('profile', [AdminLoginController::class, 'profile']);
+
         Route::prefix('admin')->group(function () {
             Route::get('', [AdminController::class, 'index']);
-            Route::delete('delete/{docter_id}', [AdminController::class, 'destroy']);
 
             Route::get('verifyUser/{user_id}', [VerifyUserController::class, 'verifyUser']);
 
             Route::get('dashborad', [AdminDashboardController::class, 'adminDashborad']);
 
             Route::get('patient', [PatientsController::class, 'index']);
-
-            Route::delete('delete/{user_id}', [DeleteUsersController::class, 'destroy']);
 
             Route::prefix('docter')->group(function () {
                 Route::get('', [DocterController::class, 'index']);
@@ -73,6 +72,9 @@ Route::prefix('v1')->group(function () {
                 Route::get('', [SonograpyController::class, 'index']);
                 Route::post('store', [SonograpyController::class, 'store']);
             });
+
+            Route::delete('delete', [DeleteUsersController::class, 'destroy']);
+
         });
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
         Route::post('docter/dashborad/serach', [DoctersDashbordeController::class, 'serach']);
