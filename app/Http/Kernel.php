@@ -70,10 +70,6 @@ class Kernel extends HttpKernel
         'admin.approval' =>\App\Http\Middleware\AdminApproval::class,
         'restPassword' =>\App\Http\Middleware\RestPassword::class,
         'labDocterSono.registration' =>\App\Http\Middleware\LabDocterSonoRegistration::class,
-        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
-        //'jwt.auth' => Tymon\JWTAuth\Middleware\Authenticate::class,
-        'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
-        'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
 
     ];
 }
