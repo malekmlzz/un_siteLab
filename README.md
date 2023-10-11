@@ -1,21 +1,21 @@
 ## un-sit
 
 ## Api for register laboratory and sonography
-### POST:Send (full_name)(center_number)(phon_number)(role)(password)(password_confirmation)
+#### POST:Send (full_name)(center_number)(phon_number)(role)(password)(password_confirmation)
 [http://127.0.0.1:8000/api/v1/register/users]
 
 
 ## Api for register docter
-### POST:Send (full_name)(national_code)(docter_code)(phon_number)(role)(password)(password_confirmation) 
+#### POST:Send (full_name)(national_code)(docter_code)(phon_number)(role)(password)(password_confirmation) 
 [http://127.0.0.1:8000/api/v1/register/users]
 
 
 ## For laboratory and sonography login 
-### POST : send (center_number) (password)
+#### POST : send (center_number) (password)
 [http://127.0.0.1:8000/api/v1/login/users]
 
 ## For docter login
-### POST : send (national_code) (password)
+#### POST : send (national_code) (password)
 [http://127.0.0.1:8000/api/v1/login/users]
 
 ## For admin login
