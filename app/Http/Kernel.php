@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class  . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,    
         ],
@@ -70,10 +70,6 @@ class Kernel extends HttpKernel
         'admin.approval' =>\App\Http\Middleware\AdminApproval::class,
         'restPassword' =>\App\Http\Middleware\RestPassword::class,
         'labDocterSono.registration' =>\App\Http\Middleware\LabDocterSonoRegistration::class,
-        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
-        //'jwt.auth' => Tymon\JWTAuth\Middleware\Authenticate::class,
-        'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
-        'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
 
     ];
 }
