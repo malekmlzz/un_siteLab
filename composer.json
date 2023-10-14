@@ -13,7 +13,6 @@
         "kavenegar/php": "*",
         "laravel/framework": "^8.75",
         "laravel/passport": "^10.0",
-        "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "pamenary/laravel-sms": "^1.0"
     },

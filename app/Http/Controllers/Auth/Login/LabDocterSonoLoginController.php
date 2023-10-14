@@ -15,6 +15,7 @@ class LabDocterSonoLoginController extends Controller
     {
         // Login Docters
         if ($request->national_code) {
+           
             $validate = Validator::make($request->all(), [
                 'national_code' => ['required', 'numeric'],
                 'password' => ['required'],
