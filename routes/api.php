@@ -46,8 +46,6 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::post('admin/store', [AdminController::class, 'store']);
-    Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
-    
     Route::middleware(['auth:api'])->group(function () {
 
         Route::get('profile', [AdminLoginController::class, 'profile']);
@@ -80,7 +78,7 @@ Route::prefix('v1')->group(function () {
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
         Route::post('docter/dashborad/serach', [DoctersDashbordeController::class, 'serach']);
         Route::post('changePassword', [ChangePasswordCnotroller::class, 'changePassword']);
-        //Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
+        Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
         Route::get('laboratory/dashborad/show', [LaboratoriesDashbordeController::class, 'index']);
     });
 });
