@@ -17,13 +17,27 @@ class DoctersDashbordeController extends Controller
         // تبدیل تاریخ شمسی به تاریخ میلادی
         $startDate1 = Jalalian::fromFormat('Y/m/d', $star_data)->toCarbon();
         $endDate2 = Jalalian::fromFormat('Y/m/d', $end_data)->toCarbon();
-        
+
         // حالا $gregorianDate حاوی تاریخ میلادی است
         $patients = Patient::where('national_code', $request->national_code)->whereBetween('created_at', [$startDate1, $endDate2])->get();
-        if ($patients) {
-            return response()->json([
-                'data' => $patients,
-            ], 200);
+        $patientexperimet = [];
+
+        foreach ($patients as $patient) {
+            $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
+            // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
+            $patientexperimet[] = [
+                'id' => $patient->id,
+                'experiment_name' => $patient->experiment_name,
+                'national_code' => $patient->national_code,
+                'mobile' => $patient->mobile,
+                'experiment_file' => $patient->experiment_file,
+                'lab_name' => $patient->lab_name,
+                'created_at' => $jalaliDatepatient->format('Y/m/d H:i:s'),
+            ];
+        }
+        
+        if ($patientexperimet) {
+            return response()->json(['data' => $patientexperimet]);
         } else {
             return response()->json([
                 'message' => 'بیمار یافت  نشد',

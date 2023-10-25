@@ -4,15 +4,12 @@ namespace App\Http\Controllers\Home;
 
 use Kavenegar;
 use App\Models\Patient;
-use Illuminate\Http\Request;
 use App\Utilities\ImageUploader;
 use App\Http\Controllers\Controller;
-use Kavenegar\Exceptions\ApiException;
-use Kavenegar\Exceptions\HttpException;
 use App\Http\Requests\ExperimentsRequest;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Morilog\Jalali\Jalalian;
 
 class LaboratoriesDashbordeController extends Controller
 {
@@ -20,14 +17,31 @@ class LaboratoriesDashbordeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $experimet = Patient::where('lab_name', $user->full_name)->paginate(8);
-        return response()->json([
-            'data' => $experimet,
-        ]);
+        $experimets = Patient::where('lab_name', $user->full_name)->get();
+        $patientexperimet = [];
+
+        foreach ($experimets as $experimet) {
+            $jalaliDatepatient = Jalalian::fromDateTime($experimet->created_at);
+            // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
+            $patientexperimet[] = [
+                'id' => $experimet->id,
+                'experiment_name' => $experimet->experiment_name,
+                'national_code' => $experimet->national_code,
+                'mobile' => $experimet->mobile,
+                'experiment_file' => $experimet->experiment_file,
+                'lab_name' => $experimet->lab_name,
+                'created_at' => $jalaliDatepatient->format('Y/m/d H:i:s'),
+            ];
+        }
+        
+        if ($patientexperimet) {
+            return response()->json(['data' => $patientexperimet]);
+        } else {
+            return response()->json([
+                'message' => 'ازمایشی ثبت نشده است',
+            ], 404);
+        }
     }
-
-
-
     public function store(ExperimentsRequest $request)
     {
 
@@ -35,7 +49,7 @@ class LaboratoriesDashbordeController extends Controller
         $patient = new Patient();
         $user = Auth::user();
         $files[] = $request->file('experiment_file');
-        
+
         try {
             $basepath = 'experiments/' . $validatData['national_code'] . '/';
             foreach ($files as  $file) {
@@ -48,9 +62,10 @@ class LaboratoriesDashbordeController extends Controller
             $patient->experiment_file = $sorcefilepath;
             $patient->lab_name = $user->full_name;
             $patients = $patient->save();
+            $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
+            $patient->created_at = $jalaliDatepatient->format('Y/m/d H:i:s');
             if ($patients) {
-                $this->sendExperimetForPatient($patient->id);
-
+                //$this->sendExperimetForPatient($patient->id);
                 return response()->json([
                     'data' => $patient,
                 ], 200);
@@ -76,7 +91,6 @@ class LaboratoriesDashbordeController extends Controller
             $url = Storage::url('app/local_storage/' . $patient->experiment_file);
             $receptor = $patient->mobile;
             $token = $url;
-
             $token2 = "44";
             $token3 = "789";
             $template = "sendExperiment";
