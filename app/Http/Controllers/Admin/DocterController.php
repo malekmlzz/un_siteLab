@@ -13,7 +13,7 @@ class DocterController extends Controller
 {
     public function index()
     {
-        $docters = User::where('role', 'docter')->paginate(8);
+        $docters = User::where('role', 'docter')->get();
         return response()->json([
             'data' => $docters,
         ] , 200);

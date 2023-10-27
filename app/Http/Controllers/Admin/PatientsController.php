@@ -11,7 +11,7 @@ class PatientsController extends Controller
 {
     public function index()
     {
-         $patients = Patient::paginate(8);
+         $patients = Patient::all();
 
          return response()->json([
            'data' => $patients ,

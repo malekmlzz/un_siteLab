@@ -15,6 +15,7 @@ class VerifyUserController extends Controller
 {
     public function verifyUser($user_id)
     {
+    
         $user = User::find($user_id);
         if ($user->is_approved == 1) {
             return response()->json([
