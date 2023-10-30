@@ -13,7 +13,7 @@ class SonograpyController extends Controller
 {
     public function index()
     {
-        $sonography = User::where('role' , 'sonography')->get();
+        $sonography = User::where('role' , 'sonography')->paginate(10);
         return response()->json([
             'data' => $sonography ,
         ]);

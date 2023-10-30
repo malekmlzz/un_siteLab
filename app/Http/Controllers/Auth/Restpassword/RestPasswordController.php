@@ -31,8 +31,8 @@ class RestPasswordController extends Controller
                 try {
                     $receptor = $user->phone_number;
                     $token = mt_rand(100000, 999999);
-                    $token2 = "456";
-                    $token3 = "789";
+                    $token2 = "";
+                    $token3 = "";
                     $template = "verify";
                     //Send null for tokens not defined in the template
                     //Pass token10 and token20 as parameter 6th and 7th

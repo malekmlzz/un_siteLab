@@ -17,7 +17,7 @@ class LaboratoriesDashbordeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $experimets = Patient::where('lab_name', $user->full_name)->get();
+        $experimets = Patient::where('lab_name', $user->full_name)->paginate(10);
         $patientexperimet = [];
 
         foreach ($experimets as $experimet) {
@@ -30,12 +30,14 @@ class LaboratoriesDashbordeController extends Controller
                 'mobile' => $experimet->mobile,
                 'experiment_file' => $experimet->experiment_file,
                 'lab_name' => $experimet->lab_name,
-                'created_at' => $jalaliDatepatient->format('Y/m/d H:i:s'),
+                'created_at' => $jalaliDatepatient->format('Y/m/d'),
+                'downloadLink' => Storage::url($experimet->experiment_file),
             ];
         }
-        
         if ($patientexperimet) {
-            return response()->json(['data' => $patientexperimet]);
+            return response()->json([
+                'data' => $patientexperimet,
+            ]);
         } else {
             return response()->json([
                 'message' => 'ازمایشی ثبت نشده است',
@@ -44,7 +46,6 @@ class LaboratoriesDashbordeController extends Controller
     }
     public function store(ExperimentsRequest $request)
     {
-
         $validatData = $request->validated();
         $patient = new Patient();
         $user = Auth::user();
@@ -56,6 +57,7 @@ class LaboratoriesDashbordeController extends Controller
                 $sorcefilepath = $basepath . 'experiment' . $file->getClientOriginalName();
                 ImageUploader::Upload($file, $sorcefilepath, 'local_storage');
             }
+            // اضافه کردن لینک دانلود به آبجکت Patient
             $patient->experiment_name = $validatData['experiment_name'];
             $patient->national_code = $validatData['national_code'];
             $patient->mobile = $validatData['phon_number'];
@@ -63,19 +65,21 @@ class LaboratoriesDashbordeController extends Controller
             $patient->lab_name = $user->full_name;
             $patients = $patient->save();
             $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
-            $patient->created_at = $jalaliDatepatient->format('Y/m/d H:i:s');
+            $patient->created_at = $jalaliDatepatient->format('Y/m/d');
+
             if ($patients) {
-                //$this->sendExperimetForPatient($patient->id);
+                $this->sendExperimetForPatient($sorcefilepath , $patient->mobile);
                 return response()->json([
                     'data' => $patient,
                 ], 200);
             }
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'در بارگذاری فایل مشکلی پیش امده است '
+                'error' => 'در بارگذاری فایل مشکلی پیش آمده است'
             ], 400);
         }
     }
+
 
     public function downloadSorce($id)
     {
@@ -83,20 +87,19 @@ class LaboratoriesDashbordeController extends Controller
         return response()->download(storage_path('app/local_storage/' . $patient->experiment_file));
     }
 
-    public function sendExperimetForPatient($patient_id)
+    public function sendExperimetForPatient($sorcefilepath , $mobile)
     {
-        $patient = Patient::find($patient_id);
         try {
-
-            $url = Storage::url('app/local_storage/' . $patient->experiment_file);
-            $receptor = $patient->mobile;
-            $token = $url;
+            $downloadLink = Storage::url($sorcefilepath);
+            $receptor = $mobile;
+            $token = $downloadLink;
             $token2 = "44";
             $token3 = "789";
             $template = "sendExperiment";
             //Send null for tokens not defined in the template
             //Pass token10 and token20 as parameter 6th and 7th
             $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
+            dd($result);
         } catch (\Kavenegar\Exceptions\ApiException $e) {
             // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
             echo $e->errorMessage();
@@ -104,5 +107,6 @@ class LaboratoriesDashbordeController extends Controller
             // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
             echo $e->errorMessage();
         }
+
     }
 }

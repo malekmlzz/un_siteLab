@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use Illuminate\Support\Facades\Storage;
 
 class DoctersDashbordeController extends Controller
 {
@@ -19,7 +20,7 @@ class DoctersDashbordeController extends Controller
         $endDate2 = Jalalian::fromFormat('Y/m/d', $end_data)->toCarbon();
 
         // حالا $gregorianDate حاوی تاریخ میلادی است
-        $patients = Patient::where('national_code', $request->national_code)->whereBetween('created_at', [$startDate1, $endDate2])->get();
+        $patients = Patient::where('national_code', $request->national_code)->whereBetween('created_at', [$startDate1, $endDate2])->paginate(10);
         $patientexperimet = [];
 
         foreach ($patients as $patient) {
@@ -32,7 +33,8 @@ class DoctersDashbordeController extends Controller
                 'mobile' => $patient->mobile,
                 'experiment_file' => $patient->experiment_file,
                 'lab_name' => $patient->lab_name,
-                'created_at' => $jalaliDatepatient->format('Y/m/d H:i:s'),
+                'created_at' => $jalaliDatepatient->format('Y/m/d'),
+                'downloadLink' => Storage::url($patient->experiment_file),
             ];
         }
         
