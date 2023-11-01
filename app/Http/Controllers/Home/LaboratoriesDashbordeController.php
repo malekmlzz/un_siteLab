@@ -54,7 +54,9 @@ class LaboratoriesDashbordeController extends Controller
         try {
             $basepath = 'experiments/' . $validatData['national_code'] . '/';
             foreach ($files as  $file) {
-                $sorcefilepath = $basepath . 'experiment' . $file->getClientOriginalName();
+                $originalFileName = $file->getClientOriginalName();
+                $cleanedFileName = str_replace(' ', '', $originalFileName);
+                $sorcefilepath = $basepath . 'experiment' . $cleanedFileName;
                 ImageUploader::Upload($file, $sorcefilepath, 'local_storage');
             }
             // اضافه کردن لینک دانلود به آبجکت Patient
@@ -66,9 +68,9 @@ class LaboratoriesDashbordeController extends Controller
             $patients = $patient->save();
             $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
             $patient->created_at = $jalaliDatepatient->format('Y/m/d');
-
+            //$downloadLink = Storage::url($patient->experiment_file);
             if ($patients) {
-                $this->sendExperimetForPatient($sorcefilepath , $patient->mobile);
+                $this->sendExperimetForPatient($patient);
                 return response()->json([
                     'data' => $patient,
                 ], 200);
@@ -87,19 +89,18 @@ class LaboratoriesDashbordeController extends Controller
         return response()->download(storage_path('app/local_storage/' . $patient->experiment_file));
     }
 
-    public function sendExperimetForPatient($sorcefilepath , $mobile)
+    public function sendExperimetForPatient($patient)
     {
         try {
-            $downloadLink = Storage::url($sorcefilepath);
-            $receptor = $mobile;
-            $token = $downloadLink;
-            $token2 = "44";
-            $token3 = "789";
+            $receptor = $patient->mobile;
+            $token = Storage::url('app/local_storage/' . $patient->experiment_file);
+            $token2 = "";
+            $token3 = "";
             $template = "sendExperiment";
             //Send null for tokens not defined in the template
             //Pass token10 and token20 as parameter 6th and 7th
             $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
-            dd($result);
+
         } catch (\Kavenegar\Exceptions\ApiException $e) {
             // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
             echo $e->errorMessage();
