@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $admins = User::where('role', 'admin')->get();
+        $admins = User::where('role', 'admin')->paginate(10);
         return response()->json([
             'data' => $admins,
         ] , 200);

@@ -15,7 +15,7 @@ class LaboratoryController extends Controller
 {
     public function index()
     {
-        $laboratory = User::where('role' , 'laboratory')->get();
+        $laboratory = User::where('role' , 'laboratory')->paginate(10);
         return response()->json([
             'data' => $laboratory ,
         ]);
