@@ -10,6 +10,7 @@ use App\Http\Requests\ExperimentsRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Morilog\Jalali\Jalalian;
+use PharIo\Manifest\Url;
 
 class LaboratoriesDashbordeController extends Controller
 {
@@ -31,7 +32,7 @@ class LaboratoriesDashbordeController extends Controller
                 'experiment_file' => $experimet->experiment_file,
                 'lab_name' => $experimet->lab_name,
                 'created_at' => $jalaliDatepatient->format('Y/m/d'),
-                'downloadLink' => Storage::url($experimet->experiment_file),
+                'downloadLink' =>url('app/public/' . $experimet->experiment_file),
             ];
         }
         if ($patientexperimet) {
@@ -57,7 +58,7 @@ class LaboratoriesDashbordeController extends Controller
                 $originalFileName = $file->getClientOriginalName();
                 $cleanedFileName = str_replace(' ', '', $originalFileName);
                 $sorcefilepath = $basepath . 'experiment' . $cleanedFileName;
-                ImageUploader::Upload($file, $sorcefilepath, 'local_storage');
+                ImageUploader::Upload($file, $sorcefilepath, 'public');
             }
             // اضافه کردن لینک دانلود به آبجکت Patient
             $patient->experiment_name = $validatData['experiment_name'];
@@ -86,14 +87,15 @@ class LaboratoriesDashbordeController extends Controller
     public function downloadSorce($id)
     {
         $patient = Patient::findOrFail($id);
-        return response()->download(storage_path('app/local_storage/' . $patient->experiment_file));
+        return response()->download(storage_path('app/public/' . $patient->experiment_file));
     }
 
     public function sendExperimetForPatient($patient)
     {
         try {
             $receptor = $patient->mobile;
-            $token = Storage::url('app/local_storage/' . $patient->experiment_file);
+
+            $token = url('app/public/' . $patient->experiment_file);
             $token2 = "";
             $token3 = "";
             $template = "sendExperiment";

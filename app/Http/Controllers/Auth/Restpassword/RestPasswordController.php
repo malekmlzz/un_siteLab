@@ -30,7 +30,7 @@ class RestPasswordController extends Controller
             if ($user->is_approved == 1) {
                 try {
                     $receptor = $user->phone_number;
-                    $token = mt_rand(100000, 999999);
+                    $token = strval(mt_rand(100000, 999999));
                     $token2 = "";
                     $token3 = "";
                     $template = "verify";
