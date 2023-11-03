@@ -32,7 +32,7 @@ class LaboratoriesDashbordeController extends Controller
                 'experiment_file' => $experimet->experiment_file,
                 'lab_name' => $experimet->lab_name,
                 'created_at' => $jalaliDatepatient->format('Y/m/d'),
-                'downloadLink' =>url('app/public/' . $experimet->experiment_file),
+                'downloadLink' =>asset('storage/'.$experimet->experiment_file),
             ];
         }
         if ($patientexperimet) {
@@ -95,7 +95,7 @@ class LaboratoriesDashbordeController extends Controller
         try {
             $receptor = $patient->mobile;
 
-            $token = url('app/public/' . $patient->experiment_file);
+            $token = asset('storage/'.$patient->experiment_file);
             $token2 = "";
             $token3 = "";
             $template = "sendExperiment";

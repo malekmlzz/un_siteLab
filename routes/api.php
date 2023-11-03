@@ -80,7 +80,6 @@ Route::prefix('v1')->group(function () {
         Route::post('changePassword', [ChangePasswordCnotroller::class, 'changePassword']);
         Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
         Route::get('laboratory/dashborad/show', [LaboratoriesDashbordeController::class, 'index']);
-        
-
     });
+
 });
