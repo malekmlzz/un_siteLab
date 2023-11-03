@@ -96,6 +96,7 @@ class LaboratoriesDashbordeController extends Controller
             $receptor = $patient->mobile;
 
             $token = asset('storage/'.$patient->experiment_file);
+            dd($token);
             $token2 = "";
             $token3 = "";
             $template = "sendExperiment";
