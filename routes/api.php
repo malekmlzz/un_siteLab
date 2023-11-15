@@ -14,9 +14,11 @@ use App\Http\Controllers\Auth\LogOut\LogOutController;
 use App\Http\Controllers\Auth\Register\LabDocterSonoController;
 use App\Http\Controllers\Auth\Restpassword\RestPasswordController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Home\allCenterController;
 use App\Http\Controllers\Home\ChangePasswordCnotroller;
 use App\Http\Controllers\Home\DoctersDashbordeController;
 use App\Http\Controllers\Home\LaboratoriesDashbordeController;
+use App\Http\Controllers\Home\profileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +48,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::post('admin/store', [AdminController::class, 'store']);
+    Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
     Route::middleware(['auth:api'])->group(function () {
 
         Route::get('profile', [AdminLoginController::class, 'profile']);
@@ -75,11 +78,12 @@ Route::prefix('v1')->group(function () {
             Route::delete('delete', [DeleteUsersController::class, 'destroy']);
 
         });
-        Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
         Route::post('docter/dashborad/serach', [DoctersDashbordeController::class, 'serach']);
         Route::post('changePassword', [ChangePasswordCnotroller::class, 'changePassword']);
-        Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
+        Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
         Route::get('laboratory/dashborad/show', [LaboratoriesDashbordeController::class, 'index']);
+        Route::get('all/center', [allCenterController::class, 'index']);
+       Route::get('user/info', [profileController::class, 'getUserInfo']);
     });
 
 });

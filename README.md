@@ -98,8 +98,15 @@
 
 #### Api show Experiment patient into panel laboratory and sonograph
 ##### GET :don’t need to any data
-[http://127.0.0.1:8000/api/v1/laboratory/dashborad/show] 
+[http://127.0.0.1:8000/api/v1/laboratory/dashborad/show]
 
+#### Api show all center
+##### GET :don’t need to any data
+[http://127.0.0.1:8000/api/v1/all/center]
+
+#### Api user info(profile)
+##### GET :don’t need to any data
+[http://127.0.0.1:8000/api/v1/user/info]
 
 
 
