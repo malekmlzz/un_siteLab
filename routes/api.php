@@ -48,7 +48,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::post('admin/store', [AdminController::class, 'store']);
-    Route::get('download/experiment/{experiment_id}', [LaboratoriesDashbordeController::class, 'downloadSorce']);
+    Route::get('download/experiment/{experiment_id}', [Controller::class, 'downloadexperiment']);
     Route::middleware(['auth:api'])->group(function () {
 
         Route::get('profile', [AdminLoginController::class, 'profile']);

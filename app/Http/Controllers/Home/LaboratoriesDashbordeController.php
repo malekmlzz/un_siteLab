@@ -57,7 +57,7 @@ class LaboratoriesDashbordeController extends Controller
     {
         try {
             $receptor = $patient->mobile;
-
+           
             $token = $this->downloadSorce($patient->id);
             dd($token);
             $token2 = "";
@@ -80,19 +80,19 @@ class LaboratoriesDashbordeController extends Controller
     {
         $validatData = $request->validated();
         $currentDate = Carbon::today()->toDateString();
-
         $basepath = 'experiments/' . $currentDate . $validatData['national_code'] . '/';
         if (!file_exists($basepath)) {
             mkdir($basepath, 0755, true);
         }
         $files = $request->file('experiment_file');
         $uploadedFiles = [];
+        
         foreach ($files as $index => $file) {
             $originalFileName = $file->getClientOriginalName();
             $cleanedFileName = str_replace(' ', '', $originalFileName);
             $sourceFilePath = $basepath . 'experiment' . $cleanedFileName;
             ImageUploader::Upload($file, $sourceFilePath, 'public');
-            $uploadedFiles[] = $sourceFilePath; // ذخیره مسیرهای فایل‌ها در آرایه
+            $uploadedFiles[] = $sourceFilePath;
         }
         $patient = new Patient();
         $patient->experiment_name = $validatData['experiment_name'];
