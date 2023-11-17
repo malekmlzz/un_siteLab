@@ -59,7 +59,6 @@ class LaboratoriesDashbordeController extends Controller
             $receptor = $patient->mobile;
            
             $token = $this->downloadSorce($patient->id);
-            dd($token);
             $token2 = "";
             $token3 = "";
             $template = "sendExperiment";
