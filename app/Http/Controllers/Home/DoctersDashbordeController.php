@@ -12,18 +12,17 @@ class DoctersDashbordeController extends Controller
 {
     public function serach(Request $request)
     {
-        
-        $star_data = $request->start_data;
+
+        $start_data = $request->start_data;
         $end_data = $request->end_data;
-        // تبدیل تاریخ شمسی به تاریخ میلادی
-        $startDate1 = Jalalian::fromFormat('Y/m/d', $star_data)->toCarbon();
-        $endDate2 = Jalalian::fromFormat('Y/m/d', $end_data)->toCarbon();
-        // حالا $gregorianDate حاوی تاریخ میلادی است
-        $patients = Patient::where('national_code', $request->national_code)->whereBetween('created_at', [$startDate1, $endDate2])->paginate(10);
+
+        $patients = Patient::where('national_code', $request->national_code)
+            ->whereBetween('created_at', [$start_data, $end_data])
+            ->get();
+
         $patientexperimet = [];
 
         foreach ($patients as $patient) {
-            $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
             // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
             $patientexperimet[] = [
                 'id' => $patient->id,
@@ -32,10 +31,10 @@ class DoctersDashbordeController extends Controller
                 'mobile' => $patient->mobile,
                 'experiment_file' => $patient->experiment_file,
                 'lab_name' => $patient->lab_name,
-                'created_at' => $jalaliDatepatient->format('Y/m/d'),
+                'created_at' => $patient->created_at,
             ];
         }
-        
+
         if ($patientexperimet) {
             return response()->json(['data' => $patientexperimet]);
         } else {

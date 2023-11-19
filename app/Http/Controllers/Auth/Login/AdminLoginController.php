@@ -33,6 +33,7 @@ class AdminLoginController extends Controller
         }
 
         $user = Auth::user();
+       
         $tokenResult = $user->createToken('access_token');
 
         return response()->json([

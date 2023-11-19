@@ -16,7 +16,9 @@ class VerifyUserController extends Controller
     public function verifyUser($user_id)
     {
     
+       
         $user = User::find($user_id);
+
         if ($user->is_approved == 1) {
             return response()->json([
                 'massege' => 'کاربر فعال می باشد'
@@ -27,6 +29,7 @@ class VerifyUserController extends Controller
             } else {
                 $token = $user->center_number;
             }
+
             $UpdateUser1 = $user->update([
                 'is_approved' => 1,
             ]);
@@ -43,6 +46,9 @@ class VerifyUserController extends Controller
                     //Send null for tokens not defined in the template
                     //Pass token10 and token20 as parameter 6th and 7th
                     $result = Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
+                    response()->json([
+                        'message' => 'کاربر تایید شد',
+                    ]);
                 } catch (\Kavenegar\Exceptions\ApiException $e) {
                     // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
                     echo $e->errorMessage();

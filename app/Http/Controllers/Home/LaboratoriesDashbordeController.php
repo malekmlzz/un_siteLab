@@ -28,7 +28,7 @@ class LaboratoriesDashbordeController extends Controller
         $experimets = Patient::where('lab_name', $user->full_name)->paginate(10);
         $patientexperimet = [];
         foreach ($experimets as $experimet) {
-            $jalaliDatepatient = Jalalian::fromDateTime($experimet->created_at);
+            
             // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
             $patientexperimet[] = [
                 'id' => $experimet->id,
@@ -37,7 +37,7 @@ class LaboratoriesDashbordeController extends Controller
                 'mobile' => $experimet->mobile,
                 'experiment_file' => $experimet->experiment_file,
                 'lab_name' => $experimet->lab_name,
-                'created_at' => $jalaliDatepatient->format('Y/m/d'),
+                // 'created_at' => $jalaliDatepatient->format('Y/m/d'),
             ];
         }
         if ($patientexperimet) {
@@ -99,8 +99,8 @@ class LaboratoriesDashbordeController extends Controller
         $patient->lab_name = Auth::user()->full_name;
         $patients = $patient->save();
 
-        $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
-        $patient->created_at = $jalaliDatepatient->format('Y/m/d');
+        // $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
+        //$patient->created_at = $jalaliDatepatient->format('Y/m/d');
 
         if ($patients) {
             $this->sendExperimetForPatient($patient);

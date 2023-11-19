@@ -14,7 +14,6 @@
         "laravel/framework": "^8.75",
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",
-        "morilog/jalali": "3.*",
         "pamenary/laravel-sms": "^1.0",
         "stechstudio/laravel-zipstream": "*"
     },

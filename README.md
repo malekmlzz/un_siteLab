@@ -44,7 +44,7 @@
 
 #### api delete users
 ##### GET: send user_id
-[http://127.0.0.1:8000/api/v1/admin/docter/delete/{user_id}]
+[http://127.0.0.1:8000/api/v1/admin/delete/{user_id}]
 
 #### Api show all docter
 ##### GET : don’t need to any data

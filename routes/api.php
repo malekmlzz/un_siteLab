@@ -75,7 +75,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('store', [SonograpyController::class, 'store']);
             });
 
-            Route::delete('delete', [DeleteUsersController::class, 'destroy']);
+            Route::delete('delete/{delete_id}', [DeleteUsersController::class, 'destroy']);
 
         });
         Route::post('docter/dashborad/serach', [DoctersDashbordeController::class, 'serach']);

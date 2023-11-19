@@ -11,6 +11,7 @@ class DeleteUsersController extends Controller
 {
     public function destroy($user_id)
     {
+        
         try {
             $docter = User::find($user_id);
             $deleteDocter = $docter->delete();
