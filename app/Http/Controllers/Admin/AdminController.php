@@ -40,9 +40,9 @@ class AdminController extends Controller
             $admin = User::find($admin_id);
             $deleteAdmin = $admin->delete();
             if ($deleteAdmin) {
-                return response()->json('The Post removed successfuly.', 200);
+                return response()->json('کاربر با موفقیت حذف شد ', 200);
             } else {
-                return response()->json('Removing the post is failed', 400);
+                return response()->json('کاربر حذف شد ', 400);
             }
         } catch (Exception $error) {
             return response()->json($error, 400);

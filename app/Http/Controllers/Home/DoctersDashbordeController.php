@@ -24,7 +24,6 @@ class DoctersDashbordeController extends Controller
 
         foreach ($patients as $patient) {
             $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);
-            $downloadLink = $this->downloadSorce($patient->id);
             // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
             $patientexperimet[] = [
                 'id' => $patient->id,
@@ -34,7 +33,6 @@ class DoctersDashbordeController extends Controller
                 'experiment_file' => $patient->experiment_file,
                 'lab_name' => $patient->lab_name,
                 'created_at' => $jalaliDatepatient->format('Y/m/d'),
-                'downloadLink' => $downloadLink,
             ];
         }
         

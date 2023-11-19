@@ -29,7 +29,6 @@ class LaboratoriesDashbordeController extends Controller
         $patientexperimet = [];
         foreach ($experimets as $experimet) {
             $jalaliDatepatient = Jalalian::fromDateTime($experimet->created_at);
-            $downloadLink = $this->downloadSorce($experimet->id);
             // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
             $patientexperimet[] = [
                 'id' => $experimet->id,
@@ -39,7 +38,6 @@ class LaboratoriesDashbordeController extends Controller
                 'experiment_file' => $experimet->experiment_file,
                 'lab_name' => $experimet->lab_name,
                 'created_at' => $jalaliDatepatient->format('Y/m/d'),
-                'downloadLink' => $downloadLink,
             ];
         }
         if ($patientexperimet) {
