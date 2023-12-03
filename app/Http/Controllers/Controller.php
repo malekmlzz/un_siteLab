@@ -33,7 +33,7 @@ class Controller extends BaseController
                 // اطمینان حاصل کنید که $file یک فایل است (نه دایرکتوری)
                 if ($file->isFile()) {
                     $zip->addFile($file->getPathname(), $file->getFilename());
-                }
+                }   
             }
             $zip->close();
             // ایجاد لینک دانلود با استفاده از asset

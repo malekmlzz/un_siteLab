@@ -29,7 +29,6 @@ class LaboratoriesDashbordeController extends Controller
         $patientexperimet = [];
         foreach ($experimets as $experimet) {
             
-            // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
             $patientexperimet[] = [
                 'id' => $experimet->id,
                 'experiment_name' => $experimet->experiment_name,
@@ -57,6 +56,7 @@ class LaboratoriesDashbordeController extends Controller
             $receptor = $patient->mobile;
            
             $token = $this->downloadSorce($patient->id);
+            
             $token2 = "";
             $token3 = "";
             $template = "sendExperiment";
