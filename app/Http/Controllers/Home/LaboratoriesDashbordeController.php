@@ -88,6 +88,7 @@ class LaboratoriesDashbordeController extends Controller
             $originalFileName = $file->getClientOriginalName();
             $cleanedFileName = str_replace(' ', '', $originalFileName);
             $sourceFilePath = $basepath . 'experiment' . $cleanedFileName;
+           ;
             ImageUploader::Upload($file, $sourceFilePath, 'public');
             $uploadedFiles[] = $sourceFilePath;
         }
