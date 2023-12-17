@@ -25,19 +25,20 @@ class LaboratoriesDashbordeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $experimets = Patient::where('lab_name', $user->full_name)->paginate(10);
+        $experimets = Patient::where('center_number', $user->center_number)->paginate(10);
+       
         $patientexperimet = [];
         foreach ($experimets as $experimet) {
-            
-            // اطلاعات تبدیل شده را به آرایه $jalaliDates اضافه کنید
+            $jalali_created = Jalalian::fromCarbon(\Carbon\Carbon::parse($experimet->created_at));
+            $jalali_created_String = $jalali_created->format('Y/m/d');
             $patientexperimet[] = [
                 'id' => $experimet->id,
                 'experiment_name' => $experimet->experiment_name,
                 'national_code' => $experimet->national_code,
                 'mobile' => $experimet->mobile,
                 'experiment_file' => $experimet->experiment_file,
-                'lab_name' => $experimet->lab_name,
-                // 'created_at' => $jalaliDatepatient->format('Y/m/d'),
+                'created_at' => $jalali_created_String,
+                
             ];
         }
         if ($patientexperimet) {
@@ -57,6 +58,7 @@ class LaboratoriesDashbordeController extends Controller
             $receptor = $patient->mobile;
            
             $token = $this->downloadSorce($patient->id);
+            
             $token2 = "";
             $token3 = "";
             $template = "sendExperiment";
@@ -75,6 +77,9 @@ class LaboratoriesDashbordeController extends Controller
 
     public function store(ExperimentsRequest $request)
     {
+       
+        $user = Auth::user();
+
         $validatData = $request->validated();
         $currentDate = Carbon::today()->toDateString();
         $basepath = 'experiments/' . $currentDate . $validatData['national_code'] . '/';
@@ -96,7 +101,8 @@ class LaboratoriesDashbordeController extends Controller
         $patient->national_code = $validatData['national_code'];
         $patient->mobile = $validatData['phon_number'];
         $patient->experiment_file = $basepath;
-        $patient->lab_name = Auth::user()->full_name;
+        $patient->lab_name = $user->full_name;
+        $patient->center_number=$user->center_number;
         $patients = $patient->save();
 
         // $jalaliDatepatient = Jalalian::fromDateTime($patient->created_at);

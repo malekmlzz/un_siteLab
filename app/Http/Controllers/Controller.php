@@ -24,7 +24,7 @@ class Controller extends BaseController
         $zipFileName = random_int(1111, 9999) . 'sample.zip';
 
         $directoryPath = storage_path('app/public/experiments/' . $currentDate . $nationalCode . '/');
-       
+        
         if ($zip->open(public_path('experimentZip/'.$zipFileName), ZipArchive::CREATE) === TRUE) {
             
             $filesToZip = new FilesystemIterator($directoryPath);
@@ -33,7 +33,7 @@ class Controller extends BaseController
                 // اطمینان حاصل کنید که $file یک فایل است (نه دایرکتوری)
                 if ($file->isFile()) {
                     $zip->addFile($file->getPathname(), $file->getFilename());
-                }
+                }   
             }
             $zip->close();
             // ایجاد لینک دانلود با استفاده از asset

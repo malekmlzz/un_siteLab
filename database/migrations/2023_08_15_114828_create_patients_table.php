@@ -20,6 +20,7 @@ class CreatePatientsTable extends Migration
             $table->char('mobile' , 11);
             $table->string('experiment_file');
             $table->char('lab_name');
+            $table->char('center_number');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-zip": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
@@ -14,6 +15,7 @@
         "laravel/framework": "^8.75",
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",
+        "morilog/jalali": "^3.4",
         "pamenary/laravel-sms": "^1.0",
         "stechstudio/laravel-zipstream": "*"
     },

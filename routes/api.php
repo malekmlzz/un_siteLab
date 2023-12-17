@@ -81,7 +81,7 @@ Route::prefix('v1')->group(function () {
         Route::post('docter/dashborad/serach', [DoctersDashbordeController::class, 'serach']);
         Route::post('changePassword', [ChangePasswordCnotroller::class, 'changePassword']);
         Route::post('laboratory/dashborad/store', [LaboratoriesDashbordeController::class, 'store']);
-        Route::get('laboratory/dashborad/show', [LaboratoriesDashbordeController::class, 'index']);
+        Route::get('laboratory/expriment/show', [LaboratoriesDashbordeController::class, 'index']);
         Route::get('all/center', [allCenterController::class, 'index']);
        Route::get('user/info', [profileController::class, 'getUserInfo']);
     });
