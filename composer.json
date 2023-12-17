@@ -9,6 +9,7 @@
         "ext-zip": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "hekmatinasser/verta": "^8.3",
         "intervention/image": "^2.7",
         "kavenegar/laravel": "^1.3",
         "kavenegar/php": "*",
@@ -16,6 +17,7 @@
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",
         "morilog/jalali": "^3.4",
+        "morilog/jalali": "3.*",
         "pamenary/laravel-sms": "^1.0",
         "stechstudio/laravel-zipstream": "*"
     },

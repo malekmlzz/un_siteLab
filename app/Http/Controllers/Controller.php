@@ -55,6 +55,8 @@ class Controller extends BaseController
         $zipFileName = random_int(1111, 9999) . 'sample.zip';
 
         $directoryPath = storage_path('app/public/experiments/' . $currentDate . $nationalCode . '/');
+        
+        
         if ($zip->open(public_path('experimentZip/'.$zipFileName), ZipArchive::CREATE) === TRUE) {
            
             $filesToZip = new FilesystemIterator($directoryPath);

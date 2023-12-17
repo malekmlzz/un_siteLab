@@ -22,6 +22,10 @@ class DoctersDashbordeController extends Controller
         $gregorian_start_date = $jalali_start_date->toCarbon()->format('Y/m/d');
         $gregorian_end_date = $jalali_end_date->toCarbon()->format('Y/m/d');
 
+        // تبدیل تاریخ شمسی به میلادی
+        $jalali_start_date = Verta::instance()->toCarbon($start_data)->format('Y-m-d');
+        $jalali_end_date = Verta::instance()->toCarbon($end_data)->format('Y-m-d');
+
         $patients = Patient::where('national_code', $request->national_code)
             ->whereBetween('created_at', [$gregorian_start_date, $gregorian_end_date])
             ->get();
